@@ -97,6 +97,14 @@ registering_validator_keys() {
     vanity-name $validator_nickname
 }
 
+restart_node_and_engine() {
+    sudo systemctl start chainflip-node
+    sudo systemctl start chainflip-engine
+    sudo systemctl enable chainflip-node
+    sudo systemctl enable chainflip-engine
+    tail -f /var/log/chainflip-engine.log
+}
+
 echo && echo -e " ${Red_font_prefix}Chainflip 一键安装脚本${Font_color_suffix} by \033[1;35moooooyoung\033[0m
 此脚本完全免费开源, 由推特用户 ${Green_font_prefix}@ouyoung11开发${Font_color_suffix}, 
 欢迎关注, 如有收费请勿上当受骗。
@@ -106,6 +114,7 @@ echo && echo -e " ${Red_font_prefix}Chainflip 一键安装脚本${Font_color_suf
  ${Green_font_prefix} 3.启动Chainflip node ${Font_color_suffix}
  ${Green_font_prefix} 4.启动Chainflip engine ${Font_color_suffix}
  ${Green_font_prefix} 5.注册Chainflip Stake验证者帐号 ${Font_color_suffix}
+ ${Green_font_prefix} 6.重启Chainflip node和engine(服务出错或停止时才选择此步，正常搭建请忽略此项) ${Font_color_suffix}
  ———————————————————————" && echo
 read -e -p " 请参照教程依次执行以上五个步骤，请输入数字 [1-5]:" num
 case "$num" in
@@ -123,6 +132,9 @@ case "$num" in
     ;;
 5)
     registering_validator_keys
+    ;;
+6)
+    restart_node_and_engine
     ;;
 *)
     echo
