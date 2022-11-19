@@ -98,10 +98,8 @@ registering_validator_keys() {
 }
 
 restart_node_and_engine() {
-    sudo systemctl start chainflip-node
-    sudo systemctl start chainflip-engine
-    sudo systemctl enable chainflip-node
-    sudo systemctl enable chainflip-engine
+    sudo systemctl restart chainflip-node
+    sudo systemctl restart chainflip-engine
     tail -f /var/log/chainflip-engine.log
 }
 
