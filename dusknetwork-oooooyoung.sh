@@ -36,7 +36,7 @@ get_and_start_dusk_node() {
     echo 'DUSK_CONSENSUS_KEYS_PASS=' > /opt/dusk/services/dusk.conf
     service rusk start
     service dusk start
-    tail -100 /var/log/dusk.log | grep 'Accepted'
+    tail -f /var/log/dusk.log
 }
 
 start_rusk_wallet() {
@@ -46,7 +46,7 @@ start_rusk_wallet() {
 restart_dusk_node() {
     service rusk restart
     service dusk restart
-    tail -100 /var/log/dusk.log | grep 'Accepted'
+    tail -f /var/log/dusk.log
 }
 
 echo && echo -e " ${Red_font_prefix}dusk_network 一键安装脚本${Font_color_suffix} by \033[1;35moooooyoung\033[0m
