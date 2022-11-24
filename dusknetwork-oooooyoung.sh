@@ -28,12 +28,12 @@ get_wallet_key_in_windows() {
     cd ~
     read -e -p "请输入你刚刚生成的dusk钱包地址ip: " DUSK_ADDRESS
     mv .dusk/rusk-wallet/$DUSK_ADDRESS.key .dusk/rusk-wallet/consensus.keys
-    mv -f .dusk/rusk-wallet/consensus.keys /opt/dusk/conf/
     sz .dusk/rusk-wallet/$DUSK_ADDRESS.cpk
 }
 
 get_and_start_dusk_node() {
     curl --proto '=https' --tlsv1.2 -sSf https://dusk-infra.ams3.digitaloceanspaces.com/rusk/itn-installer.sh | sh
+    mv -f .dusk/rusk-wallet/consensus.keys /opt/dusk/conf/
     echo 'DUSK_CONSENSUS_KEYS_PASS=' > /opt/dusk/services/dusk.conf
     service rusk start
     service dusk start
