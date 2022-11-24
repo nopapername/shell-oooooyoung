@@ -15,6 +15,7 @@ install_dusk_wallet_and_run() {
     check_root
     sudo apt install wget
     sudo apt install curl
+    sudo apt install lrzsz
     mkdir /root/wallet
     cd ~ && wget -O /root/wallet/ruskwallet0.12.0-linux-x64.tar.gz https://github.com/dusk-network/wallet-cli/releases/download/v0.12.0/ruskwallet0.12.0-linux-x64.tar.gz && chmod +x ruskwallet0.12.0-linux-x64.tar.gz
     tar -xv -f /root/wallet/ruskwallet0.12.0-linux-x64.tar.gz -C /root/wallet/
