@@ -26,7 +26,7 @@ install_dusk_wallet_and_run() {
 
 get_wallet_key_in_windows() {
     cd ~
-    read -e -p "请输入你刚刚生成的dusk钱包地址ip: " DUSK_ADDRESS
+    read -e -p "请输入你刚刚生成的dusk钱包地址adress: " DUSK_ADDRESS
     mv .dusk/rusk-wallet/$DUSK_ADDRESS.key .dusk/rusk-wallet/consensus.keys
     sz .dusk/rusk-wallet/$DUSK_ADDRESS.cpk
 }
