@@ -103,6 +103,18 @@ restart_node_and_engine() {
     tail -f /var/log/chainflip-engine.log
 }
 
+out_staking() {
+    read -e -p "输入接收tflip的主钱包ETH地址：" ETH_ADDRESS
+    read -e -p "输入解除质押的tflip数量：" FLIP_AMOUNT
+    sudo chainflip-cli \
+    --config-path /etc/chainflip/config/Default.toml \
+    retire
+
+    sudo chainflip-cli \
+    --config-path /etc/chainflip/config/Default.toml \
+    claim $FLIP_AMOUNT $ETH_ADDRESS
+}
+
 echo && echo -e " ${Red_font_prefix}Chainflip 一键安装脚本${Font_color_suffix} by \033[1;35moooooyoung\033[0m
 此脚本完全免费开源, 由推特用户 ${Green_font_prefix}@ouyoung11开发${Font_color_suffix}, 
 欢迎关注, 如有收费请勿上当受骗。
@@ -113,8 +125,9 @@ echo && echo -e " ${Red_font_prefix}Chainflip 一键安装脚本${Font_color_suf
  ${Green_font_prefix} 4.启动Chainflip engine ${Font_color_suffix}
  ${Green_font_prefix} 5.注册Chainflip Stake验证者帐号 ${Font_color_suffix}
  ${Green_font_prefix} 6.重启Chainflip node和engine(服务出错或停止时才选择此步，正常搭建请忽略此项) ${Font_color_suffix}
+ ${Green_font_prefix} 7.解除质押tflip ${Font_color_suffix}
  ———————————————————————" && echo
-read -e -p " 请参照教程依次执行以上五个步骤，请输入数字 [1-5]:" num
+read -e -p " 请参照教程依次执行前面五个步骤（后面两步按需使用），请输入数字 [1-7]:" num
 case "$num" in
 1)
     install_validator_software
@@ -133,6 +146,9 @@ case "$num" in
     ;;
 6)
     restart_node_and_engine
+    ;;
+7)
+    out_staking
     ;;
 *)
     echo
