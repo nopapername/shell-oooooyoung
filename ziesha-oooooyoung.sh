@@ -27,6 +27,7 @@ install_ziesha_bazuka_and_run() {
 }
 
 update_ziesha_bazuka_and_run() {
+    cd ~
     cd bazuka
     git pull origin master
     cargo update
