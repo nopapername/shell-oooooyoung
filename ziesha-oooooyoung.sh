@@ -14,7 +14,7 @@ check_root() {
 install_ziesha_bazuka_and_run() {
     check_root
     sudo apt-get update && sudo apt-get upgrade
-    sudo apt install -y build-essential libssl-dev cmake curl
+    sudo apt install -y build-essential libssl-dev cmake curl git cargo
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     git clone https://github.com/ziesha-network/bazuka
     source "$HOME/.cargo/env"
