@@ -55,14 +55,15 @@ read_aleo_address() {
     cat /root/aleo.txt
 }
 
-echo && echo -e " ${Red_font_prefix}aleo testnet3二阶段pover节点激励测试 一键运行脚本${Font_color_suffix} fork by \033[1;35m@Daniel\033[0m
-此脚本完全免费开源, 由推特用户${Green_font_prefix}@ouyoung11修改${Font_color_suffix},
+echo && echo -e " ${Red_font_prefix}aleo testnet3二阶段pover节点激励测试 一键运行
+此脚本完全免费开源, 由推特用户${Green_font_prefix}@ouyoung11修改${Font_color_suffix},脚本${Font_color_suffix} fork by \033[1;35m@Daniel\033[0m
 欢迎关注,如有收费请勿上当受骗.
  ———————————————————————
  ${Green_font_prefix} 1.安装 aleo ${Font_color_suffix}
  ${Green_font_prefix} 2.运行 aleo_client ${Font_color_suffix}
  ${Green_font_prefix} 3.运行 aleo_prover ${Font_color_suffix}
- ${Green_font_prefix} 4.读取 aleo 地址私钥 ${Font_color_suffix}
+ ${Green_font_prefix} 4.运行信标 beacon ${Font_color_suffix}
+ ${Green_font_prefix} 5.读取 aleo 地址私钥 ${Font_color_suffix}
  ———————————————————————" && echo
 read -e -p " 请输入数字 [1-4]:" num
 case "$num" in
@@ -76,6 +77,9 @@ case "$num" in
     run_aleo_prover
     ;;
 4)
+    run_beacon
+    ;;
+5)
     read_aleo_address
     ;;
 *)
