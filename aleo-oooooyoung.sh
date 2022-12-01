@@ -59,7 +59,7 @@ echo && echo -e " ${Red_font_prefix}aleo testnet3二阶段pover节点激励测�
 此脚本完全免费开源, 由推特用户${Green_font_prefix}@ouyoung11修改${Font_color_suffix},脚本${Font_color_suffix} fork by \033[1;35m@Daniel\033[0m
 欢迎关注,如有收费请勿上当受骗.
  ———————————————————————
- ${Green_font_prefix} 1.安装 aleo ${Font_color_suffix}
+ ${Green_font_prefix} 1.安装或更新 aleo 环境包${Font_color_suffix}
  ${Green_font_prefix} 2.运行 aleo_client ${Font_color_suffix}
  ${Green_font_prefix} 3.运行 aleo_prover ${Font_color_suffix}
  ${Green_font_prefix} 4.运行信标 beacon ${Font_color_suffix}
