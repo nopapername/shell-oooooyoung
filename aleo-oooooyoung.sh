@@ -18,12 +18,12 @@ install_aleo() {
     source $HOME/.cargo/env
     git clone https://github.com/AleoHQ/snarkOS.git --depth 1 /root/snarkOS
     cd /root/snarkOS
-    bash /root/snarkOS/build_ubuntu.sh
+    /root/snarkOS/build_ubuntu.sh
     cargo install --path /root/snarkOS
     if [ -f ${AleoFile} ]; then
         echo "address exist"
     else
-        snarkos account new >/root/aleo.txt
+        snarkos account new > /root/aleo.txt
     fi
     cat /root/aleo.txt
     PrivateKey=$(cat /root/aleo.txt | grep Private | awk '{print $3}')
@@ -33,49 +33,20 @@ install_aleo() {
 
 run_aleo_client() {
     source $HOME/.cargo/env
-    source /etc/profile
     cd /root/snarkOS
-    nohup ./run-client.sh >run-client.log 2>&1 &
-    tail -f /root/snarkOS/run-client.log
+    source /etc/profile
+    ./run-client.sh
 }
 
 run_aleo_prover() {
     source $HOME/.cargo/env
+    cd /root/snarkOS
     source /etc/profile
-    cd /root/snarkOS
-    nohup ./run-prover.sh >run-prover.log 2>&1 &
-    tail -f /root/snarkOS/run-prover.log
-}
-
-run_beacon() {
-    cd /root/snarkOS
-    cargo run --release -- start --nodisplay --dev 2 --prover ""
+    ./run-prover.sh
 }
 
 read_aleo_address() {
     cat /root/aleo.txt
-}
-
-install_gpu_aleo() {
-    check_root
-    sudo apt update
-	sudo apt install cuda
-	sudo apt install git
-	sudo apt install libssl-dev
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    source $HOME/.cargo/env
-    git clone https://github.com/HarukaMa/aleo-prover.git --depth 1
-    cd /root/snarkOS
-    cargo build --release --features cuda -g
-    if [ -f ${AleoFile} ]; then
-        echo "address exist"
-    else
-        snarkos account new >/root/aleo.txt
-    fi
-    cat /root/aleo.txt
-    PrivateKey=$(cat /root/aleo.txt | grep Private | awk '{print $3}')
-    echo export PROVER_PRIVATE_KEY=$PrivateKey >>/etc/profile
-    source /etc/profile
 }
 
 echo && echo -e " ${Red_font_prefix}aleo testnet3二阶段pover节点激励测试 一键运行
@@ -85,11 +56,9 @@ echo && echo -e " ${Red_font_prefix}aleo testnet3二阶段pover节点激励测�
  ${Green_font_prefix} 1.安装或更新 aleo 环境包${Font_color_suffix}
  ${Green_font_prefix} 2.运行 aleo_client ${Font_color_suffix}
  ${Green_font_prefix} 3.运行 aleo_prover ${Font_color_suffix}
- ${Green_font_prefix} 4.运行信标 beacon ${Font_color_suffix}
- ${Green_font_prefix} 5.读取 aleo 地址私钥 ${Font_color_suffix}
- ${Green_font_prefix} 6.安装非官方 aleo 版本(改进gpu部分，会覆盖官方版本，撸毛党建议还是用官方版本) ${Font_color_suffix}
+ ${Green_font_prefix} 4.读取 aleo 地址私钥 ${Font_color_suffix}
  ———————————————————————" && echo
-read -e -p " 请输入数字 [1-6]:" num
+read -e -p " 请输入数字 [1-4]:" num
 case "$num" in
 1)
     install_aleo
@@ -101,13 +70,7 @@ case "$num" in
     run_aleo_prover
     ;;
 4)
-    run_beacon
-    ;;
-5)
     read_aleo_address
-    ;;
-6)
-    install_gpu_aleo
     ;;
 *)
     echo
