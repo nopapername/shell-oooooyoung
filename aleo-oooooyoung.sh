@@ -64,6 +64,15 @@ install_gpu_aleo() {
     cd /root/snarkOS
     bash /root/snarkOS/build_ubuntu.sh
     cargo install --path /root/snarkOS
+    if [ -f ${AleoFile} ]; then
+        echo "address exist"
+    else
+        snarkos account new >/root/aleo.txt
+    fi
+    cat /root/aleo.txt
+    PrivateKey=$(cat /root/aleo.txt | grep Private | awk '{print $3}')
+    echo export PROVER_PRIVATE_KEY=$PrivateKey >>/etc/profile
+    source /etc/profile
 }
 
 echo && echo -e " ${Red_font_prefix}aleo testnet3二阶段pover节点激励测试 一键运行
