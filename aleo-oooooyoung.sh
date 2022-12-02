@@ -58,12 +58,15 @@ read_aleo_address() {
 
 install_gpu_aleo() {
     check_root
+    sudo apt update
+	sudo apt install cuda
+	sudo apt install git
+	sudo apt install libssl-dev
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source $HOME/.cargo/env
     git clone https://github.com/HarukaMa/aleo-prover.git --depth 1
     cd /root/snarkOS
-    bash /root/snarkOS/build_ubuntu.sh
-    cargo install --path /root/snarkOS
+    cargo build --release --features cuda -g
     if [ -f ${AleoFile} ]; then
         echo "address exist"
     else
