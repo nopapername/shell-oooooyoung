@@ -77,7 +77,7 @@ echo && echo -e " ${Red_font_prefix}aleo testnet3二阶段pover节点激励测�
  ${Green_font_prefix} 5.读取 aleo 地址私钥 ${Font_color_suffix}
  ${Green_font_prefix} 6.安装非官方 aleo 版本(改进gpu部分，会覆盖官方版本，撸毛党建议还是用官方版本) ${Font_color_suffix}
  ———————————————————————" && echo
-read -e -p " 请输入数字 [1-4]:" num
+read -e -p " 请输入数字 [1-6]:" num
 case "$num" in
 1)
     install_aleo
