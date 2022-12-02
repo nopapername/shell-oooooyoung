@@ -57,11 +57,10 @@ read_aleo_address() {
 }
 
 install_gpu_aleo() {
-    git clone https://github.com/HarukaMa/aleo-prover.git --depth 1
     check_root
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source $HOME/.cargo/env
-    git clone https://github.com/AleoHQ/snarkOS.git --depth 1 /root/snarkOS
+    git clone https://github.com/HarukaMa/aleo-prover.git --depth 1
     cd /root/snarkOS
     bash /root/snarkOS/build_ubuntu.sh
     cargo install --path /root/snarkOS
