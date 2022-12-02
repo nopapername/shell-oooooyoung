@@ -49,7 +49,7 @@ run_aleo_prover() {
 
 run_beacon() {
     cd /root/snarkOS
-    cargo run --release -- start --nodisplay --dev 0 --beacon ""
+    cargo run --release -- start --nodisplay --dev 2 --prover ""
 }
 
 read_aleo_address() {
