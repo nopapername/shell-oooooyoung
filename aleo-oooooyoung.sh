@@ -56,6 +56,17 @@ read_aleo_address() {
     cat /root/aleo.txt
 }
 
+install_gpu_aleo() {
+    git clone https://github.com/HarukaMa/aleo-prover.git --depth 1
+    check_root
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    source $HOME/.cargo/env
+    git clone https://github.com/AleoHQ/snarkOS.git --depth 1 /root/snarkOS
+    cd /root/snarkOS
+    bash /root/snarkOS/build_ubuntu.sh
+    cargo install --path /root/snarkOS
+}
+
 echo && echo -e " ${Red_font_prefix}aleo testnet3二阶段pover节点激励测试 一键运行
 此脚本完全免费开源, 由推特用户${Green_font_prefix}@ouyoung11修改${Font_color_suffix},脚本${Font_color_suffix} fork by \033[1;35m@Daniel\033[0m
 欢迎关注,如有收费请勿上当受骗.
@@ -65,6 +76,7 @@ echo && echo -e " ${Red_font_prefix}aleo testnet3二阶段pover节点激励测�
  ${Green_font_prefix} 3.运行 aleo_prover ${Font_color_suffix}
  ${Green_font_prefix} 4.运行信标 beacon ${Font_color_suffix}
  ${Green_font_prefix} 5.读取 aleo 地址私钥 ${Font_color_suffix}
+ ${Green_font_prefix} 6.安装非官方 aleo 版本(改进gpu部分，会覆盖官方版本，撸毛党建议还是用官方版本) ${Font_color_suffix}
  ———————————————————————" && echo
 read -e -p " 请输入数字 [1-4]:" num
 case "$num" in
@@ -82,6 +94,9 @@ case "$num" in
     ;;
 5)
     read_aleo_address
+    ;;
+6)
+    install_gpu_aleo
     ;;
 *)
     echo
