@@ -35,16 +35,18 @@ install_aleo() {
 
 run_aleo_client() {
     source $HOME/.cargo/env
-    cd /root/snarkOS
     source /etc/profile
-    ./run-client.sh
+    cd /root/snarkOS
+    nohup ./run-client.sh >run-client.log 2>&1 &
+    tail -f /root/snarkOS/run-client.log
 }
 
 run_aleo_prover() {
     source $HOME/.cargo/env
-    cd /root/snarkOS
     source /etc/profile
-    ./run-prover.sh
+    cd /root/snarkOS
+    nohup ./run-prover.sh >run-prover.log 2>&1 &
+    tail -f /root/snarkOS/run-prover.log
 }
 
 read_aleo_address() {
