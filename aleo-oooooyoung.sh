@@ -14,6 +14,7 @@ check_root() {
 
 install_aleo() {
     check_root
+    apt install git
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source $HOME/.cargo/env
     git clone https://github.com/AleoHQ/snarkOS.git --depth 1 /root/snarkOS
