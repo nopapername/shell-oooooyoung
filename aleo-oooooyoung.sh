@@ -25,7 +25,7 @@ install_aleo() {
     if [ -f ${AleoFile} ]; then
         echo "address exist"
     else
-        snarkos account new > /root/aleo.txt
+        snarkos account new >/root/aleo.txt
     fi
     cat /root/aleo.txt
     PrivateKey=$(cat /root/aleo.txt | grep Private | awk '{print $3}')
