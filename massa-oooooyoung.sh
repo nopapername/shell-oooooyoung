@@ -8,6 +8,7 @@ Info="[${Green_font_prefix}信息${Font_color_suffix}]"
 Error="[${Red_font_prefix}错误${Font_color_suffix}]"
 Tip="[${Green_font_prefix}注意${Font_color_suffix}]"
 NODE_WALLET_PASSWORD="123456"
+
 check_root() {
     [[ $EUID != 0 ]] && echo -e "${Error} 当前非ROOT账号(或没有ROOT权限), 无法继续操作, 请更换ROOT账号或使用 ${Green_background_prefix}sudo su${Font_color_suffix} 命令获取临时ROOT权限（执行后可能会提示输入当前账号的密码）。" && exit 1
 }
@@ -27,8 +28,8 @@ install_massa_node_and_start() {
 
     read -e -p "请输入你的服务器公网ip地址: " IP_ADDRESS
     echo "[network]
-routable_ip = \"$IP_ADDRESS\"" > /root/massa/massa-node/config/config.toml
-    
+routable_ip = \"$IP_ADDRESS\"" >/root/massa/massa-node/config/config.toml
+
     cd /root/massa/massa-node/
     RUST_BACKTRACE=full cargo run --release -- -p $NODE_WALLET_PASSWORD |& tee logs.txt
 }
@@ -42,7 +43,6 @@ restart_massa_node() {
     cd /root/massa/massa-node/
     cargo run --release -- -p $NODE_WALLET_PASSWORD |& tee logs.txt
 }
-
 
 echo && echo -e " ${Red_font_prefix}massa 一键安装脚本${Font_color_suffix} by \033[1;35moooooyoung\033[0m
 此脚本完全免费开源, 由推特用户 ${Green_font_prefix}@ouyoung11开发${Font_color_suffix}, 
