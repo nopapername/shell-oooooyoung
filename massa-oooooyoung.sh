@@ -31,6 +31,7 @@ install_massa_node_and_start() {
     echo "[network]
 routable_ip = \"$IP_ADDRESS\"" >/root/massa/massa-node/config/config.toml
 
+    sudo apt update && sudo apt upgrade -y
     cd /root/massa/massa-node/
     RUST_BACKTRACE=full cargo run --release -- -p $NODE_WALLET_PASSWORD |& tee logs.txt
 }
