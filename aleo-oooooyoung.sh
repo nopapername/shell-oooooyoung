@@ -115,7 +115,7 @@ echo && echo -e " ${Red_font_prefix}aleo testnet3二阶段pover节点激励测�
  --------------(以下为aleo矿池CPU版本，请勿和上面3步混用)----------------
  ${Green_font_prefix} 5.安装aleo pool的CPU版本 ${Font_color_suffix}
  --------------(以下为aleo矿池GPU版本，请勿和上面混用)----------------
- ${Green_font_prefix} 6.安装aleo pool的GPU版本并重启系统应用 ${Font_color_suffix}
+ ${Green_font_prefix} 6.安装aleo pool的GPU版本并重启系统应用(如果系统已有显卡驱动和nvcc，请不要执行此步) ${Font_color_suffix}
  ${Green_font_prefix} 7.启动aleo pool的GPU挖矿（如若启动出错请手动安装对应显卡驱动版本及cuda） ${Font_color_suffix}
 
  ———————————————————————" && echo
