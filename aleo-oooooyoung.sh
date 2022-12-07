@@ -134,14 +134,14 @@ case "$num" in
     read_aleo_address
     ;;
 5)
-    read_aleo_address
+    install_aleo_pool_cpu_and_run
     ;;
 6)
-    read_aleo_address
+    install_aleo_pool_gpu
     ;;
 7)
-read_aleo_address
-;;
+    run_aleo_pool_gpu
+    ;;
 *)
     echo
     echo -e " ${Error} 请输入正确的数字"
