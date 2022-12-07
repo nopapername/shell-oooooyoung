@@ -28,12 +28,14 @@ install_ziesha_bazuka_and_run() {
 }
 
 update_ziesha_bazuka_and_run() {
+    rm -rf ~/.bazuka
     cd ~
     cd bazuka
     git pull origin master
     cargo update
     cargo install --path .
-    bazuka node start
+    read -e -p "请输入你的discord帐号：" DISCORD_ACCOUNT
+    bazuka node start --discord-handle "$DISCORD_ACCOUNT"
 }
 
 echo && echo -e " ${Red_font_prefix}dusk_network 一键安装脚本${Font_color_suffix} by \033[1;35moooooyoung\033[0m
@@ -43,7 +45,7 @@ echo && echo -e " ${Red_font_prefix}dusk_network 一键安装脚本${Font_color_
  ${Green_font_prefix} 1.安装Ziesha节点且生成钱包并运行 ${Font_color_suffix}
  ${Green_font_prefix} 2.更新Ziesha节点版本并重新运行 ${Font_color_suffix}
  ———————————————————————" && echo
-read -e -p " 请参照教程依次执行以上五个步骤，请输入数字 [1-5]:" num
+read -e -p " 请参照教程执行以上步骤，请输入数字 [1-2]:" num
 case "$num" in
 1)
     install_ziesha_bazuka_and_run
