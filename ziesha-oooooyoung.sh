@@ -21,7 +21,7 @@ install_ziesha_bazuka_and_run() {
     source "$HOME/.cargo/env"
     cd bazuka
     cargo install --path .
-    bazuka init --network groth-5 --bootstrap 65.108.193.133:8765
+    bazuka init --network groth-6 --bootstrap 65.108.193.133:8765
     echo -e "\n"
     read -e -p "请保存上面创建好的钱包助记词私钥，然后输入你的discord帐号：" DISCORD_ACCOUNT
     bazuka node start --discord-handle "$DISCORD_ACCOUNT"
