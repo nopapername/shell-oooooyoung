@@ -104,6 +104,7 @@ run_aleo_pool_gpu() {
     /root/aleo-pool-prover-gpu --account_name $ALEO_POOL_NAME --miner_name $ALEO_POOL_SERVER_NAME
 }
 
+
 echo && echo -e " ${Red_font_prefix}aleo testnet3二阶段pover节点激励测试 一键运行
 此脚本完全免费开源, 由推特用户${Green_font_prefix}@ouyoung11修改${Font_color_suffix},脚本${Font_color_suffix} fork by \033[1;35m@Daniel\033[0m
 欢迎关注,如有收费请勿上当受骗.
