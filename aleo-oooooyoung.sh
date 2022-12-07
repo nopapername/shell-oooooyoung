@@ -74,14 +74,15 @@ install_aleo_pool_cpu_and_run() {
 install_aleo_pool_gpu() {
     check_root
     sudo apt update
-    sudo apt-get install gcc-7 g++-7 -y
+    sudo apt-get remove --purge nvidia*
+    sudo apt-get install wget make gcc-7 g++-7 ubuntu-drivers-common -y
     sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 9
     sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 1
     sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 9
     sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 1
     sudo update-alternatives --display g++
 
-    sudo apt install wget make ubuntu-drivers-common nvidia-driver-515 -y
+    sudo ubuntu-drivers autoinstall
 
     wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
     sudo dpkg -i cuda-keyring_1.0-1_all.deb
