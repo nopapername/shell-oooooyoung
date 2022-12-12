@@ -22,7 +22,7 @@ install_damominer_env() {
 }
 
 schedule_run_prover_for_address() {
-    read -e -p "请设定每几小时跑一个地址（输入0-24）：" TIME_DURATION
+    read -e -p "请设定每几小时跑一个地址：" TIME_DURATION
     current_line=1
     address_line=`wc -l /root/address.txt | awk '{print $1}'`
     while ((current_line <= address_line))
