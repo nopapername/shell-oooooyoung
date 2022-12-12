@@ -17,6 +17,8 @@ check_root() {
 
 install_celestia_node() {
     check_root
+    ufw allow 9090
+    ufw allow 26659
     sudo apt update && sudo apt upgrade -y
     sudo apt install curl tar wget clang pkg-config libssl-dev jq build-essential git make ncdu -y
     ver="1.19.1"
@@ -30,7 +32,7 @@ install_celestia_node() {
 
     cd $HOME
     rm -rf celestia-app
-    git clone https://github.com/celestiaorg/celestia-app.git
+    git clone https://github.com/celestiaorg/celestia-app.git --depth 1
     cd celestia-app/
     APP_VERSION=$(curl -s \
     https://api.github.com/repos/celestiaorg/celestia-app/releases/latest \
@@ -40,7 +42,7 @@ install_celestia_node() {
     
     cd $HOME
     rm -rf celestia-node
-    git clone https://github.com/celestiaorg/celestia-node.git
+    git clone https://github.com/celestiaorg/celestia-node.git --depth 1
     cd celestia-node/
     git checkout tags/v0.5.0-rc5
     make install
