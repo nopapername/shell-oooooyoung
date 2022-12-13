@@ -15,8 +15,8 @@ check_root() {
 install_damominer_env() {
     check_root
     sudo apt install -y wget
-    wget -P /root/damominer_folder https://github.com/damomine/aleominer/releases/download/damominer_linux_v2.0.0/damominer_linux_v2.0.0.tar
-    tar -xvf /root/damominer_folder/damominer_linux_v2.0.0.tar -C /root/damominer_folder/
+    wget -P /root/damominer_folder https://github.com/damomine/aleominer/releases/download/v2.1.2/damominer_linux_v2.1.2.tar
+    tar -xvf /root/damominer_folder/damominer_linux_v2.1.2.tar -C /root/damominer_folder/
     chmod +x /root/damominer_folder/damominer
     chmod +x /root/damominer_folder/run_gpu.sh
 }
@@ -31,7 +31,7 @@ schedule_run_prover_for_address() {
         if ps aux | grep 'damominer' | grep -q 'proxy'; then
             killall damominer
         else
-            nohup ./damominer --address ${current_address} --proxy aleo3.damominer.hk:9090 >> aleo.log 2>&1 &
+            nohup ./damominer --address ${current_address} --proxy asiahk.damominer.hk:9090 >> aleo.log 2>&1 &
         fi
         echo "当前正在执行address.txt里第${current_line}行：${current_address}"
         sleep ${TIME_DURATION}h
