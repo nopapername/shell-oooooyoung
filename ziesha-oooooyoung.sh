@@ -38,7 +38,7 @@ update_ziesha_bazuka_and_run() {
     bazuka node start --discord-handle "$DISCORD_ACCOUNT"
 }
 
-echo && echo -e " ${Red_font_prefix}dusk_network 一键安装脚本${Font_color_suffix} by \033[1;35moooooyoung\033[0m
+echo && echo -e " ${Red_font_prefix}ziesha_network 一键安装脚本${Font_color_suffix} by \033[1;35moooooyoung\033[0m
 此脚本完全免费开源, 由推特用户 ${Green_font_prefix}@ouyoung11开发${Font_color_suffix}, 
 欢迎关注, 如有收费请勿上当受骗。
  ———————————————————————
