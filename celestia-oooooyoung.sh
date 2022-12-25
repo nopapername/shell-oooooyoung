@@ -32,7 +32,7 @@ install_celestia_node() {
 
     cd $HOME
     rm -rf celestia-app
-    git clone https://github.com/celestiaorg/celestia-app.git --depth 1
+    git clone https://github.com/celestiaorg/celestia-app.git
     cd celestia-app/
     APP_VERSION=$(curl -s \
     https://api.github.com/repos/celestiaorg/celestia-app/releases/latest \
@@ -42,7 +42,7 @@ install_celestia_node() {
     
     cd $HOME
     rm -rf celestia-node
-    git clone https://github.com/celestiaorg/celestia-node.git --depth 1
+    git clone https://github.com/celestiaorg/celestia-node.git
     NODE_VERSION=$(curl -s \
     https://api.github.com/repos/celestiaorg/celestia-node/releases/latest \
     | jq -r ".tag_name")
