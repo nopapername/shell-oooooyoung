@@ -92,6 +92,7 @@ run_full_node() {
 
 wallet_recover_account() {
     read -e -p "请输入你的celestia节点钱包名称: " WALLET_NAME
+    source $HOME/.bash_profile
     cd ~/celestia-app/
     celestia-appd config keyring-backend test
     celestia-appd keys add $WALLET_NAME --recover
@@ -101,6 +102,7 @@ wallet_staking() {
     read -e -p "请输入你的celestia节点钱包名称: " WALLET_NAME
     read -e -p "请输入质押数量: " STAKING_COUNT
     STAKING_COUNT_UTIA="${STAKING_COUNT}000000utia"
+    source $HOME/.bash_profile
     cd ~/celestia-app/
     celestia-appd tx staking delegate \
     celestiavaloper1q3v5cugc8cdpud87u4zwy0a74uxkk6u4q4gx4p $STAKING_COUNT_UTIA \
