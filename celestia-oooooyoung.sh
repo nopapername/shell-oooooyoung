@@ -44,31 +44,31 @@ install_celestia_node() {
     rm -rf celestia-node
     git clone https://github.com/celestiaorg/celestia-node.git --depth 1
     cd celestia-node/
-    git checkout tags/v0.5.0-rc5
+    git checkout tags/v0.6.1
     make install
     make cel-key
 }
 
 create_wallet_run_light_node() {
     cd ~
-    celestia light init
+    celestia light init --p2p.network arabica
     echo -e "\n"
     read -e -p "请输入钱包名称创建你的轻节点钱包: " WALLET_NAME
     celestia-node/cel-key add $WALLET_NAME --keyring-backend test --node.type light
     echo -e "\n"
     read -e -p "请保存上面创建好的轻节点钱包地址、私钥、助记词，然后按回车键继续..."
-    celestia light start --keyring.accname $WALLET_NAME --core.ip $LIGHT_RPC_ADDRESS --core.grpc.port 9090 --gateway
+    celestia light start --keyring.accname $WALLET_NAME --core.ip $LIGHT_RPC_ADDRESS --core.grpc.port 9090 --gateway --p2p.network arabica
 }
 
 create_wallet_run_full_node() {
     cd ~
-    celestia full init
+    celestia full init --p2p.network arabica
     echo -e "\n"
     read -e -p "请输入钱包名称创建你的全存储节点钱包: " WALLET_NAME
     celestia-node/cel-key add $WALLET_NAME --keyring-backend test --node.type full
     echo -e "\n"
     read -e -p "请保存上面创建好的全存储节点钱包地址、私钥、助记词，然后按回车键继续..."
-    celestia full start --core.ip $FULL_RPC_ADDRESS --core.grpc.port 9090 --keyring.accname $WALLET_NAME
+    celestia full start --core.ip $FULL_RPC_ADDRESS --core.grpc.port 9090 --keyring.accname $WALLET_NAME --p2p.network arabica
 }
 
 run_light_node() {
@@ -76,7 +76,7 @@ run_light_node() {
     celestia light init
     echo -e "\n"
     read -e -p "请输入你的轻节点钱包名称: " WALLET_NAME
-    celestia light start --keyring.accname $WALLET_NAME --core.ip $LIGHT_RPC_ADDRESS --core.grpc.port 9090 --gateway
+    celestia light start --keyring.accname $WALLET_NAME --core.ip $LIGHT_RPC_ADDRESS --core.grpc.port 9090 --gateway --p2p.network arabica
 }
 
 run_full_node() {
@@ -84,7 +84,7 @@ run_full_node() {
     celestia full init
     echo -e "\n"
     read -e -p "请输入你的全存储节点钱包名称: " WALLET_NAME
-    celestia full start --core.ip $FULL_RPC_ADDRESS --core.grpc.port 9090 --keyring.accname $WALLET_NAME
+    celestia full start --core.ip $FULL_RPC_ADDRESS --core.grpc.port 9090 --keyring.accname $WALLET_NAME --p2p.network arabica
 }
 
 wallet_recover_account() {
