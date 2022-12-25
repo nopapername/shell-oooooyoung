@@ -79,7 +79,7 @@ run_light_node() {
     celestia light init --p2p.network arabica
     echo -e "\n"
     read -e -p "请输入你的轻节点钱包名称: " WALLET_NAME
-    celestia light start --keyring.accname $WALLET_NAME --core.ip $LIGHT_RPC_ADDRESS --core.grpc.port 9090 --gateway --p2p.network arabica
+    celestia light start --keyring.accname $WALLET_NAME --core.ip $LIGHT_RPC_ADDRESS --core.grpc.port 9090 --gateway --gateway.addr 0.0.0.0 --gateway.port 26659 --p2p.network arabica
 }
 
 run_full_node() {
