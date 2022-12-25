@@ -76,7 +76,7 @@ create_wallet_run_full_node() {
 
 run_light_node() {
     cd ~
-    celestia light init
+    celestia light init --p2p.network arabica
     echo -e "\n"
     read -e -p "请输入你的轻节点钱包名称: " WALLET_NAME
     celestia light start --keyring.accname $WALLET_NAME --core.ip $LIGHT_RPC_ADDRESS --core.grpc.port 9090 --gateway --p2p.network arabica
@@ -84,7 +84,7 @@ run_light_node() {
 
 run_full_node() {
     cd ~
-    celestia full init
+    celestia full init --p2p.network arabica
     echo -e "\n"
     read -e -p "请输入你的全存储节点钱包名称: " WALLET_NAME
     celestia full start --core.ip $FULL_RPC_ADDRESS --core.grpc.port 9090 --keyring.accname $WALLET_NAME --p2p.network arabica
