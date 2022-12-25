@@ -60,7 +60,7 @@ create_wallet_run_light_node() {
     celestia-node/cel-key add $WALLET_NAME --keyring-backend test --node.type light
     echo -e "\n"
     read -e -p "请保存上面创建好的轻节点钱包地址、私钥、助记词，然后按回车键继续..."
-    celestia light start --keyring.accname $WALLET_NAME --core.ip $LIGHT_RPC_ADDRESS --core.grpc.port 9090 --gateway --p2p.network arabica
+    celestia light start --keyring.accname $WALLET_NAME --core.ip $LIGHT_RPC_ADDRESS --core.grpc.port 9090 --gateway --gateway.addr 0.0.0.0 --gateway.port 26659 --p2p.network arabica
 }
 
 create_wallet_run_full_node() {
