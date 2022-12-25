@@ -43,8 +43,11 @@ install_celestia_node() {
     cd $HOME
     rm -rf celestia-node
     git clone https://github.com/celestiaorg/celestia-node.git --depth 1
+    NODE_VERSION=$(curl -s \
+    https://api.github.com/repos/celestiaorg/celestia-node/releases/latest \
+    | jq -r ".tag_name")
     cd celestia-node/
-    git checkout tags/v0.6.1
+    git checkout tags/$NODE_VERSION -b $NODE_VERSION
     make install
     make cel-key
 }
