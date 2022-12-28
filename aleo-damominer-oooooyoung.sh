@@ -40,9 +40,8 @@ schedule_run_prover_for_address() {
         current_address=`head -${current_line} /root/aleo_address.txt | tail -n 1`
         if ps aux | grep 'damominer'; then
             killall damominer
-        else
-            nohup /root/damominer_folder/damominer --address ${current_address} --proxy asiahk.damominer.hk:9090 >> aleo.log 2>&1 &
         fi
+        nohup /root/damominer_folder/damominer --address ${current_address} --proxy asiahk.damominer.hk:9090 >> aleo.log 2>&1 &
         echo "当前正在执行aleo_address.txt里第${current_line}行：${current_address}"
         sleep ${TIME_DURATION}h
         ((current_line += 1))
