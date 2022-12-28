@@ -54,14 +54,18 @@ echo && echo -e "脚本由推特用户 ${Green_font_prefix}@ouyoung11开发${Fon
 欢迎关注, 如有收费请勿上当受骗。
  ———————————————————————
  ${Green_font_prefix} 1.安装damominer工具包 ${Font_color_suffix}
- ${Green_font_prefix} 2.定时执行gpu prover挖矿（请确保aleo_address.txt存在于/root目录下，且文件内容里每个地址需换行） ${Font_color_suffix}
+ ${Green_font_prefix} 2.运行damominer gpu挖矿程序 ${Font_color_suffix}
+ ${Green_font_prefix} 3.定时执行gpu挖矿（请确保aleo_address.txt存在于/root目录下，且文件内容里每个地址需换行） ${Font_color_suffix}
  ———————————————————————" && echo
-read -e -p " 请输入数字 [1-2]:" num
+read -e -p " 请输入数字 [1-3]:" num
 case "$num" in
 1)
     install_damominer_env
     ;;
 2)
+    run_damominer
+    ;;
+3)
     schedule_run_prover_for_address
     ;;
 *)
