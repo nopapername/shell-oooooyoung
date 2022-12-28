@@ -38,7 +38,7 @@ schedule_run_prover_for_address() {
     while ((current_line <= address_line))
     do
         current_address=`head -${current_line} /root/aleo_address.txt | tail -n 1`
-        if ps aux | grep 'damominer' | grep -q 'proxy'; then
+        if ps aux | grep 'damominer'; then
             killall damominer
         else
             nohup /root/damominer_folder/damominer --address ${current_address} --proxy asiahk.damominer.hk:9090 >> aleo.log 2>&1 &
