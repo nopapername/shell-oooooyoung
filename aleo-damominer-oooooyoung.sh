@@ -21,6 +21,16 @@ install_damominer_env() {
     chmod +x /root/damominer_folder/run_gpu.sh
 }
 
+run_damominer() {
+    read -e -p "请输入你的aleo address: " ALEO_ADDRESS
+    if ps aux | grep 'damominer' | grep -q 'proxy'; then
+        echo "DamoMiner already running."
+        exit 1
+    else
+        nohup /root/damominer_folder/damominer --address $ALEO_ADDRESS --proxy aleo2.damominer.hk:9090 >> aleo.log 2>&1 &
+    fi
+}
+
 schedule_run_prover_for_address() {
     read -e -p "请设定每几小时跑一个地址：" TIME_DURATION
     current_line=1
