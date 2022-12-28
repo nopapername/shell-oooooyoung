@@ -15,8 +15,8 @@ check_root() {
 install_damominer_env() {
     check_root
     sudo apt install -y wget
-    wget -P /root/damominer_folder https://github.com/damomine/aleominer/releases/download/v2.1.2/damominer_linux_v2.1.2.tar
-    tar -xvf /root/damominer_folder/damominer_linux_v2.1.2.tar -C /root/damominer_folder/
+    wget -P /root/damominer_folder https://github.com/damomine/aleominer/releases/download/v2.2.0/damominer_linux_v2.2.0.tar
+    tar -xvf /root/damominer_folder/damominer_linux_v2.2.0.tar -C /root/damominer_folder/
     chmod +x /root/damominer_folder/damominer
     chmod +x /root/damominer_folder/run_gpu.sh
 }
@@ -24,16 +24,16 @@ install_damominer_env() {
 schedule_run_prover_for_address() {
     read -e -p "请设定每几小时跑一个地址：" TIME_DURATION
     current_line=1
-    address_line=`wc -l /root/address.txt | awk '{print $1}'`
+    address_line=`wc -l /root/aleo_address.txt | awk '{print $1}'`
     while ((current_line <= address_line))
     do
-        current_address=`head -${current_line} 2.txt  | tail -n 1`
+        current_address=`head -${current_line} /root/aleo_address.txt | tail -n 1`
         if ps aux | grep 'damominer' | grep -q 'proxy'; then
             killall damominer
         else
             nohup ./damominer --address ${current_address} --proxy asiahk.damominer.hk:9090 >> aleo.log 2>&1 &
         fi
-        echo "当前正在执行address.txt里第${current_line}行：${current_address}"
+        echo "当前正在执行aleo_address.txt里第${current_line}行：${current_address}"
         sleep ${TIME_DURATION}h
         ((current_line += 1))
     done
@@ -44,7 +44,7 @@ echo && echo -e "脚本由推特用户 ${Green_font_prefix}@ouyoung11开发${Fon
 欢迎关注, 如有收费请勿上当受骗。
  ———————————————————————
  ${Green_font_prefix} 1.安装damominer工具包 ${Font_color_suffix}
- ${Green_font_prefix} 2.定时执行gpu prover挖矿（请确保address.txt存在于/root目录下，且文件内容里每个地址需换行） ${Font_color_suffix}
+ ${Green_font_prefix} 2.定时执行gpu prover挖矿（请确保aleo_address.txt存在于/root目录下，且文件内容里每个地址需换行） ${Font_color_suffix}
  ———————————————————————" && echo
 read -e -p " 请输入数字 [1-2]:" num
 case "$num" in
