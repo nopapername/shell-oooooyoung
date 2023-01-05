@@ -15,7 +15,7 @@ check_root() {
 install_damominer_env() {
     check_root
     sudo apt install -y wget
-    wget -P /root/damominer_folder https://github.com/damomine/aleominer/releases/download/v2.2.4/damominer_linux_v2.2.4.tar
+    wget -P /root/damominer_folder https://ghproxy.com/https://github.com/damomine/aleominer/releases/download/v2.2.4/damominer_linux_v2.2.4.tar
     tar -xvf /root/damominer_folder/damominer_linux_v2.2.4.tar -C /root/damominer_folder/
     chmod +x /root/damominer_folder/damominer
     chmod +x /root/damominer_folder/run_gpu.sh
