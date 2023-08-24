@@ -36,7 +36,8 @@ install_dymension_env_and_generate_wallet() {
     ufw allow 20556
     ufw allow 26657
     install_go
-    rm -rf dymension
+    rm -rf ~/dymension
+    rm -rf ~/.dymension
     rm ~/account.txt
     git clone https://github.com/dymensionxyz/dymension.git --branch v1.0.2-beta
     cd ~/dymension
