@@ -34,6 +34,7 @@ install_dymension_env_and_generate_wallet() {
     check_root
     ufw allow 26656
     ufw allow 20556
+    ufw allow 26657
     install_go
     git clone https://github.com/dymensionxyz/dymension.git --branch v1.0.2-beta
     cd ~/dymension
@@ -49,7 +50,10 @@ install_dymension_env_and_generate_wallet() {
     read -e -p "请输入你的钱包名称以生成钱包: " WALLET_NAME
     dymd init $MONIKER_NAME --chain-id froopyland_100-1
     rm ~/.dymension/config/genesis.json
-    wget https://raw.githubusercontent.com/dymensionxyz/testnets/main/dymension-hub/froopyland/genesis.json -P ~/.dymension/config/
+    # download genesis and addrbook
+    wget -O $HOME/.dymension/config/genesis.json "https://raw.githubusercontent.com/dymensionxyz/testnets/main/dymension-hub/froopyland/genesis.json"
+    wget -O $HOME/.dymension/config/addrbook.json "https://share101.utsa.tech/dymension/addrbook.json"
+    echo "moniker: $MONIKER_NAME" >> ~/account.txt
     dymd keys add $WALLET_NAME >> ~/account.txt
     cat ~/account.txt
     echo -e "\n请保存好上面的钱包账号信息...后回车继续"
@@ -61,27 +65,27 @@ install_dymension_env_and_generate_wallet() {
 
 start_dymension_full_node() {
     cd ~/dymension
+    source $HOME/.bash_profile
     dymd collect-gentxs
     dymd start
 }
 
 start_dymension_validator_node() {
     cd ~/dymension
-    read -e -p "请输入你的节点名称: " MONIKER_NAME
-    read -e -p "请输入你的钱包名称以生成钱包: " WALLET_NAME
-    read -e -p "请输入你的钱包地址: " WALLET_ADDRESS
+    MONIKER_NAME=$(grep -oP '(?<=moniker: ).*' ~/account.txt)
+    WALLET_ADDRESS=$(grep -oP '(?<=address: ).*' ~/account.txt)
+    WALLET_NAME=$(grep -oP '(?<=name: ).*' ~/account.txt)
     dymd tx staking create-validator \
-        --amount=500000000000udym \
-        --pubkey=$(dymd tendermint show-validator) \
-        --moniker="$MONIKER_NAME" \
-        --chain-id=froopyland_100-1 \
-        --from=$WALLET_NAME \
-        --commission-rate="0.10" \
-        --commission-max-rate="0.20" \
-        --commission-max-change-rate="0.01" \
-        --min-self-delegation="1"
-
-    dymd query tendermint-validator-set | grep "$(dymd tendermint show-address)"
+    --amount=1000000udym \
+    --pubkey=$(dymd tendermint show-validator) \
+    --moniker="$MONIKER_NAME" \
+    --chain-id=froopyland_100-1 \
+    --from=$WALLET_NAME \
+    --commission-rate="0.10" \
+    --commission-max-rate="0.20" \
+    --commission-max-change-rate="0.01" \
+    --min-self-delegation="1" \
+    -y
 }
 
 echo && echo -e " ${Red_font_prefix}Dymension节点 一键安装脚本${Font_color_suffix} by \033[1;35moooooyoung\033[0m
