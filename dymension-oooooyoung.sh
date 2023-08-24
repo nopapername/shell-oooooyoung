@@ -16,45 +16,57 @@ check_root() {
     [[ $EUID != 0 ]] && echo -e "${Error} 当前非ROOT账号(或没有ROOT权限), 无法继续操作, 请更换ROOT账号或使用 ${Green_background_prefix}sudo su${Font_color_suffix} 命令获取临时ROOT权限（执行后可能会提示输入当前账号的密码）。" && exit 1
 }
 
+install_go() {
+    check_root
+    sudo apt update && sudo apt upgrade -y
+    sudo apt install curl tar wget clang pkg-config libssl-dev jq build-essential git make ncdu unzip zip -y
+    ver="1.21.0"
+    cd $HOME
+    wget "https://go.dev/dl/go$ver.linux-amd64.tar.gz"
+    sudo rm -rf /usr/local/go
+    sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
+    rm "go$ver.linux-amd64.tar.gz"
+    echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> $HOME/.bash_profile
+    source $HOME/.bash_profile
+}
+
 install_dymension_env_and_generate_wallet() {
     check_root
     ufw allow 26656
     ufw allow 20556
-    wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
-    rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.0.linux-amd64.tar.gz
-    export PATH=$PATH:/usr/local/go/bin
-    rm go1.21.0.linux-amd64.tar.gz
+    install_go
     git clone https://github.com/dymensionxyz/dymension.git --branch v1.0.2-beta
-    cd ~/.dymension
+    cd ~/dymension
     make install
     dymd version --long
-    # 调整配置https://docs.dymension.xyz/validate/dymension-hub/config#update-minimum-gas-prices & https://docs.dymension.xyz/validate/dymension-hub/config#update-minimum-gas-prices
-    sed -i -e 's/external_address = \"\"/external_address = \"'$(curl httpbin.org/ip | jq -r .origin)':26656\"/g' ~/.dymension/config/config.toml
-    echo 'seed_mode = true' >> ~/.dymension/config/config.toml
-    echo 'seeds = "284313184f63d9f06b218a67a0e2de126b64258d@seeds.silknodes.io:26157"' >> ~/.dymension/config/config.toml
-    echo 'persistent_peers = "e7857b8ed09bd0101af72e30425555efa8f4a242@148.251.177.108:20556,cb120ed9625771d57e06f8d449cb10ab99a58225@57.128.114.155:26656"' >> ~/.dymension/config/config.toml
-    # 下载genesis file: https://docs.dymension.xyz/validate/dymension-hub/join-network#download-the-genesis-file
-
-    echo -e "\n"
+    sed -i 's/minimum-gas-prices = "0udym"/minimum-gas-prices = "0.25udym"/' ~/.dymension/config/app.toml
+    sed -i -e 's/external_address = \"\"/external_address = \"'$(curl httpbin.org/ip | jq -r .origin)':26656\"/g' ~/dymension/config/config.toml
+    sed -i 's/seed_mode = false/seed_mode = true/' ~/.dymension/config/config.toml
+    sed -i 's/seeds = \"\"/seeds = \"284313184f63d9f06b218a67a0e2de126b64258d@seeds.silknodes.io:26157\"/' ~/.dymension/config/config.toml
+    sed -i 's/persistent_peers = \"\"/persistent_peers = \"e7857b8ed09bd0101af72e30425555efa8f4a242@148.251.177.108:20556,cb120ed9625771d57e06f8d449cb10ab99a58225@57.128.114.155:26656\"/' ~/.dymension/config/config.toml
+    
+    read -e -p "请输入你的节点名称: " MONIKER_NAME
     read -e -p "请输入你的钱包名称以生成钱包: " WALLET_NAME
-    dymd keys add $WALLET_NAME
-    echo -e "\n请保存好上面的钱包账号信息..."
+    dymd init $MONIKER_NAME --chain-id froopyland_100-1
+    rm ~/.dymension/config/genesis.json
+    wget https://raw.githubusercontent.com/dymensionxyz/testnets/main/dymension-hub/froopyland/genesis.json -P ~/.dymension/config/
+    dymd keys add $WALLET_NAME >> ~/account.txt
+    cat ~/account.txt
+    echo -e "\n请保存好上面的钱包账号信息...后回车继续"
+    WALLET_ADDRESS=$(grep -oP '(?<=address: ).*' ~/account.txt)
+    WALLET_NAME=$(grep -oP '(?<=name: ).*' ~/account.txt)
+    dymd add-genesis-account $WALLET_ADDRESS 600000000000udym
+    dymd gentx $WALLET_NAME 500000000000udym --chain-id=froopyland_100-1
 }
 
 start_dymension_full_node() {
-    cd ~/.dymension
-    read -e -p "请输入你的节点名称: " MONIKER_NAME
-    read -e -p "请输入你的钱包名称以生成钱包: " WALLET_NAME
-    read -e -p "请输入你的钱包地址: " WALLET_ADDRESS
-    dymd init $MONIKER_NAME --chain-id froopyland_100-1
-    dymd add-genesis-account $WALLET_ADDRESS 600000000000udym
-    dymd gentx $WALLET_NAME 500000000000udym --chain-id=froopyland_100-1
+    cd ~/dymension
     dymd collect-gentxs
     dymd start
 }
 
 start_dymension_validator_node() {
-    cd ~/.dymension
+    cd ~/dymension
     read -e -p "请输入你的节点名称: " MONIKER_NAME
     read -e -p "请输入你的钱包名称以生成钱包: " WALLET_NAME
     read -e -p "请输入你的钱包地址: " WALLET_ADDRESS

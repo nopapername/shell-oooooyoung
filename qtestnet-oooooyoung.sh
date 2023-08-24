@@ -17,7 +17,7 @@ check_root() {
 install_q_validator_node_and_export_key() {
     check_root
     ufw allow 30313
-    sudo apt install -y curl git wget lrzsz docker-compose
+    sudo apt install -y curl git wget lrzsz docker docker-compose
     git clone https://gitlab.com/q-dev/testnet-public-tools --depth 1
     cd /root/testnet-public-tools/testnet-validator
     sudo mkdir -p /root/testnet-public-tools/testnet-validator/keystore/
