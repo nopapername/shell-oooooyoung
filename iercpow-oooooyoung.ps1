@@ -62,6 +62,7 @@ function Install-Env {
 
 # 获取用户输入
 $userInput = Read-Host @"
+script by oooooyoung11
 please select:
 1. install pow env
 2. create wallet
@@ -82,13 +83,13 @@ switch ($userInput) {
  }
  3 {
      cd "C:\ierc-miner-js"
-     $privateKey = Read-Host "Input wallet private key: "
+     $privateKey = Read-Host "Input wallet private key "
      & yarn run cli wallet --set $privateKey
      cd $env:USERPROFILE\Desktop
  }
  4 {
      cd "C:\ierc-miner-js"
-     $address = Read-Host "Input wallet address: "
+     $address = Read-Host "Input wallet address "
      & yarn run cli wallet show $address
      cd $env:USERPROFILE\Desktop
  }
@@ -99,9 +100,9 @@ switch ($userInput) {
  }
  6 {
      cd "C:\ierc-miner-js"
-     $address = Read-Host "Input wallet address: "
-     $tick = Read-Host "Input mint pow ierc name: "
-     & yarn run cli mine $tick --account $address
+     $address = Read-Host "Input wallet address "
+     $tick = Read-Host "Input mint pow ierc name "
+     & yarn run cli mine "$tick" --account "$address"
      cd $env:USERPROFILE\Desktop
  }
  default { Write-Output "invalid select" }
