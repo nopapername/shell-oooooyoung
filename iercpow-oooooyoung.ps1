@@ -102,7 +102,7 @@ switch ($userInput) {
      cd "C:\ierc-miner-js"
      $address = Read-Host "Input wallet address "
      $tick = Read-Host "Input mint pow ierc name "
-     & yarn run cli mine "$tick" --account "$address"
+     & yarn run cli mine $tick --account $address
      cd $env:USERPROFILE\Desktop
  }
  default { Write-Output "invalid select" }
