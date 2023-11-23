@@ -56,6 +56,7 @@ function Install-Env {
  Install-GitRepo
 
  Write-Output "all env install"
+ Set-Location "$([System.IO.Path]::Combine($env:USERPROFILE, 'Desktop'))"
 }
 
 
@@ -79,31 +80,31 @@ switch ($userInput) {
  2 { 
      cd "C:\ierc-miner-js"
      & yarn run cli wallet --create
-     cd $env:USERPROFILE\Desktop
+     Set-Location "$([System.IO.Path]::Combine($env:USERPROFILE, 'Desktop'))"
  }
  3 {
      cd "C:\ierc-miner-js"
      $privateKey = Read-Host "Input wallet private key "
      & yarn run cli wallet --set $privateKey
-     cd $env:USERPROFILE\Desktop
+     Set-Location "$([System.IO.Path]::Combine($env:USERPROFILE, 'Desktop'))"
  }
  4 {
      cd "C:\ierc-miner-js"
      $address = Read-Host "Input wallet address "
      & yarn run cli wallet show $address
-     cd $env:USERPROFILE\Desktop
+     Set-Location "$([System.IO.Path]::Combine($env:USERPROFILE, 'Desktop'))"
  }
  5 {
      cd "C:\ierc-miner-js"
      & yarn run cli wallet --all
-     cd $env:USERPROFILE\Desktop
+     Set-Location "$([System.IO.Path]::Combine($env:USERPROFILE, 'Desktop'))"
  }
  6 {
      cd "C:\ierc-miner-js"
      $address = Read-Host "Input wallet address "
      $tick = Read-Host "Input mint pow ierc name "
      & yarn run cli mine $tick --account $address
-     cd $env:USERPROFILE\Desktop
+     Set-Location "$([System.IO.Path]::Combine($env:USERPROFILE, 'Desktop'))"
  }
  default { Write-Output "invalid select" }
 }
