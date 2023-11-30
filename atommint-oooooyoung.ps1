@@ -1,63 +1,92 @@
 
 $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::UTF8
+$scriptDir = $PSScriptRoot
+$atomicalsjsDir = "D:\atomicals-js"
 function Install-NodeJS {
- param (
-     [string]$installPath = "C:\Node"
- )
+    param (
+        [string]$downloadUrl = "https://nodejs.org/dist/v20.10.0/node-v20.10.0-x64.msi",
+        [string]$installPath = "D:\Node"
+    )
+    $DownloadPath = Join-Path $env:TEMP "NodeInstaller.msi"
+    Invoke-WebRequest -Uri $DownloadUrl -OutFile $DownloadPath
 
- $nodeDownloadUrl = "https://nodejs.org/dist/v20.10.0/node-v20.10.0-x64.msi"
+    Start-Process -Wait -FilePath "msiexec.exe" -ArgumentList "/i", "`"$DownloadPath`"", "/qn", "/norestart", "/L*v `"$InstallPath\install.log`""
 
- New-Item -ItemType Directory -Path $installPath -Force | Out-Null
- Invoke-WebRequest -Uri $nodeDownloadUrl -OutFile "$installPath\node.msi" | Out-Null
- Start-Process -FilePath "$installPath\node.msi" -ArgumentList "/qn" -Wait
- [Environment]::SetEnvironmentVariable("Path", "$($env:Path);$installPath", [EnvironmentVariableTarget]::Machine)
- Remove-Item "$installPath\node.msi" -Force
+    Remove-Item $DownloadPath -Force
 
- Write-Output "Node.js install."
+    Write-Output "Node install."
 }
 
-
 function Install-Git {
- param (
-     [string]$installPath = "C:\Git"
- )
+    param(
+        [string]$DownloadUrl = "https://github.com/git-for-windows/git/releases/download/v2.43.0.windows.1/Git-2.43.0-64-bit.exe",
+        [string]$InstallPath = "D:\Git"
+    )
 
- $gitDownloadUrl = "https://github.com/git-for-windows/git/releases/download/v2.43.0.windows.1/Git-2.43.0-64-bit.exe"
+    $DownloadPath = Join-Path $env:TEMP "GitInstaller.exe"
+    Invoke-WebRequest -Uri $DownloadUrl -OutFile $DownloadPath
 
- New-Item -ItemType Directory -Path $installPath -Force | Out-Null
- Invoke-WebRequest -Uri $gitDownloadUrl -OutFile "$installPath\Git-Installer.exe" | Out-Null
- Start-Process -FilePath "$installPath\Git-Installer.exe" -ArgumentList "/SILENT" -Wait
- [Environment]::SetEnvironmentVariable("Path", "$($env:Path);$installPath\cmd;$installPath\bin", [EnvironmentVariableTarget]::Machine)
- Remove-Item "$installPath\Git-Installer.exe" -Force
+    Start-Process -Wait -FilePath $DownloadPath -ArgumentList "/SILENT", "/COMPONENTS=icons,ext,cmdhere,menus", "/DIR=$InstallPath"
 
- Write-Output "Git install."
+    Remove-Item $DownloadPath -Force
+
+    Write-Output "Git install."
 }
 
 
 function Install-GitRepo {
- param (
-     [string]$repoUrl = "https://github.com/atomicals/atomicals-js.git",
-     [string]$destination = "C:\atomicals-js"
- )
+    param (
+        [string]$repoUrl = "https://github.com/atomicals/atomicals-js.git",
+        [string]$destination = $atomicalsjsDir
+    )
 
- git clone $repoUrl $destination
- cd $destination
- npm i -g yarn
- yarn install
- yarn build
+    try {
+        if (Test-Path $destination) {
+            Remove-Item -Recurse -Force $destination
+            Write-Output "Removed existing directory: $destination"
+        }
 
- Write-Output "Git clone in $destination and install dependency"
+        git clone $repoUrl $destination
+
+        cd $destination
+
+        npm i -g yarn
+
+        yarn install
+
+        yarn build
+
+        Write-Output "Git clone in $destination and install dependencies"
+    }
+    catch {
+        Write-Error "Failed to clone the Git repository. $_"
+    }
 }
 
 # 安装环境函数
 function Install-Env {
  param ()
- Install-NodeJS
- Install-Git
+
+    if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
+        Install-NodeJS
+    }
+    else {
+        Write-Host "Node.js is already installed."
+    }
+
+    if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+        Install-Git
+    }
+    else {
+        Write-Host "Git is already installed."
+    }
+
  Install-GitRepo
 
  Write-Output "all env install"
- Set-Location "$([System.IO.Path]::Combine($env:USERPROFILE, 'Desktop'))"
+ Read-Host "Press Enter to restart atommint-oooooyoung script..."
+ Set-Location -Path $scriptDir
+ .\atommint-oooooyoung.ps1
 }
 
 
@@ -66,11 +95,13 @@ function Install-Env {
 $userInput = Read-Host @"
 script by oooooyoung11
 please select:
-1. install pow env
+1. install atomicals env
 2. create wallet
 3. import wallet
-5. check all wallet info
-6. start mint
+4. check all wallet info
+5. start mint arc20
+6. start mint dmint
+7. check dmint nft status
 
 "@
 
@@ -78,28 +109,57 @@ please select:
 switch ($userInput) {
  1 { Install-Env }
  2 { 
-     cd "C:\atomicals-js"
+     cd $atomicalsjsDir
      & yarn cli wallet-init
-     Set-Location "$([System.IO.Path]::Combine($env:USERPROFILE, 'Desktop'))"
+     Set-Location -Path $scriptDir
+     Read-Host "Press Enter to restart atommint-oooooyoung script..."
+     Set-Location -Path $scriptDir
+     .\atommint-oooooyoung.ps1
  }
  3 {
-     cd "C:\atomicals-js"
+     cd $atomicalsjsDir
      $wif = Read-Host "Input wallet WIF private key "
      $alias = Read-Host "Input wallet alias "
      & yarn cli wallet-import $wif $alias
-     Set-Location "$([System.IO.Path]::Combine($env:USERPROFILE, 'Desktop'))"
+     Read-Host "Press Enter to restart atommint-oooooyoung script..."
+     Set-Location -Path $scriptDir
+     .\atommint-oooooyoung.ps1
  }
  4 {
-     cd "C:\atomicals-js"
+     cd $atomicalsjsDir
      & yarn cli wallets
-     Set-Location "$([System.IO.Path]::Combine($env:USERPROFILE, 'Desktop'))"
+     Read-Host "Press Enter to restart atommint-oooooyoung script..."
+     Set-Location -Path $scriptDir
+     .\atommint-oooooyoung.ps1
  }
  5 {
-     cd "C:\atomicals-js"
+     cd $atomicalsjsDir
+     $tick = Read-Host "Input mint arc20 coin name "
      $gas = Read-Host "Input mint gas "
-     $tick = Read-Host "Input mint arc coin name "
      & yarn cli mint-dft $tick --satsbyte $gas*1.2
-     Set-Location "$([System.IO.Path]::Combine($env:USERPROFILE, 'Desktop'))"
+     Read-Host "Press Enter to restart atommint-oooooyoung script..."
+     Set-Location -Path $scriptDir
+     .\atommint-oooooyoung.ps1
+ }
+ 6 {
+     cd $atomicalsjsDir
+     $container = Read-Host "Input container name (start with #) "
+     $tick = Read-Host "Input project nft name "
+     $dmintpath = Read-Host "Input project json file path "
+     $gas = Read-Host "Input mint gas "
+     & yarn cli mint-item "$container" "$tick" "$dmintpath" --satsbyte=$gas*1.2
+     Read-Host "Press Enter to restart atommint-oooooyoung script..."
+     Set-Location -Path $scriptDir
+     .\atommint-oooooyoung.ps1
+ }
+ 7 {
+     cd $atomicalsjsDir
+     $container = Read-Host "Input container name (start with #) "
+     $tick = Read-Host "Input project nft name "
+     & yarn cli get-container-item "$container" "$tick"
+     Read-Host "Press Enter to restart atommint-oooooyoung script..."
+     Set-Location -Path $scriptDir
+     .\atommint-oooooyoung.ps1
  }
  default { Write-Output "invalid select" }
 }
