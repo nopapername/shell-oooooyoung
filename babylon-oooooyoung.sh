@@ -31,13 +31,12 @@ install_go() {
 install_babylon_env() {
     read -e -p "请输入你的节点名称: " node_name
     install_go
-    go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@latest
 
     cd $HOME
-    source $HOME/.bash_profile
     rm -rf babylon
     git clone https://github.com/babylonchain/babylon.git
     cd babylon/
+    source $HOME/.bash_profile
     APP_VERSION=$(curl -s \
     https://api.github.com/repos/babylonchain/babylon/releases/latest \
     | jq -r ".tag_name")
@@ -53,6 +52,8 @@ install_babylon_env() {
     
     sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.babylond/config/config.toml
     sed -i.bak -e "s/^seeds *=.*/seeds = \"$PEERS\"/" $HOME/.babylond/config/config.toml
+
+    go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@latest
 
     mkdir -p $HOME/.babylond/cosmovisor
     mkdir -p $HOME/.babylond/cosmovisor/genesis
