@@ -29,6 +29,7 @@ install_go() {
 }
 
 install_babylon_env() {
+    read -e -p "请输入你的节点名称: " node_name
     install_go
     go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@latest
 
@@ -43,7 +44,6 @@ install_babylon_env() {
     git checkout tags/$APP_VERSION -b $APP_VERSION
     make install
 
-    read -e -p "请输入你的节点名称: " node_name
     babylond init $node_name --chain-id $CHAIN_ID
     wget https://github.com/babylonchain/networks/raw/main/$CHAIN_ID/genesis.tar.bz2
     tar -xjf genesis.tar.bz2 && rm genesis.tar.bz2
@@ -83,7 +83,7 @@ EOF
 
     echo -e "\n"
     echo -e "下面开始创建babylon钱包，会让你创建一个钱包密码..."
-    babylond keys add wallet > $HOME/account.txt
+    babylond keys add wallet
     sed -i -e "s|^key-name *=.*|key-name = \"wallet\"|" $HOME/.babylond/config/app.toml
     sed -i -e "s|^timeout_commit *=.*|timeout_commit = \"10s\"|" $HOME/.babylond/config/config.toml
     echo -e "\n"
