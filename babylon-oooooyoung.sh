@@ -34,10 +34,10 @@ install_babylon_env() {
     install_go
 
     cd $HOME
+    source $HOME/.bash_profile
     rm -rf babylon
     git clone https://github.com/babylonchain/babylon.git
     cd babylon/
-    source $HOME/.bash_profile
     APP_VERSION=$(curl -s \
     https://api.github.com/repos/babylonchain/babylon/releases/latest \
     | jq -r ".tag_name")
