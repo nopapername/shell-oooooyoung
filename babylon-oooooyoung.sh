@@ -82,6 +82,7 @@ WantedBy=multi-user.target
 EOF
 
     echo -e "\n"
+    echo -e "下面开始创建babylon钱包，会让你创建一个钱包密码..."
     babylond keys add wallet > $HOME/account.txt
     sed -i -e "s|^key-name *=.*|key-name = \"wallet\"|" $HOME/.babylond/config/app.toml
     sed -i -e "s|^timeout_commit *=.*|timeout_commit = \"10s\"|" $HOME/.babylond/config/config.toml
