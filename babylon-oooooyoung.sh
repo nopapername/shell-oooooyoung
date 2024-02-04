@@ -44,7 +44,6 @@ install_babylon_env() {
     git checkout tags/$APP_VERSION -b $APP_VERSION
     make install
 
-    cd ~/.babylond
     source $HOME/.bash_profile
     babylond init $node_name --chain-id $CHAIN_ID
     wget https://github.com/babylonchain/networks/raw/main/$CHAIN_ID/genesis.tar.bz2
