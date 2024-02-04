@@ -105,20 +105,17 @@ EOF
 }
 
 start_babylon_node() {
-    source $HOME/.bash_profile
     # Start the service and check the logs
     sudo systemctl start babylond.service
     sudo journalctl -u babylond.service -f --no-hostname -o cat
 }
 
 check_node_status_and_height() {
-    source $HOME/.bash_profile
     babylond status | jq .SyncInfo
     systemctl status babylond
 }
 
 start_validator_node() {
-    source $HOME/.bash_profile
     read -e -p "请输入你的验证者名称: " validator_name
     babylond tx checkpointing create-validator \
     --amount=10ubbn \
