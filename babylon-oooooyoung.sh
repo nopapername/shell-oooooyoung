@@ -76,25 +76,34 @@ install_babylon_env() {
     sed -i -e "s%:1317%:20617%; s%:8080%:20680%; s%:9090%:20690%; s%:9091%:20691%; s%:8545%:20645%; s%:8546%:20646%; s%:6065%:20665%" $HOME/.babylond/config/app.toml
     sed -i -e "s%:26658%:20658%; s%:26657%:20657%; s%:6060%:20660%; s%:26656%:20656%; s%:26660%:20661%" $HOME/.babylond/config/config.toml
 
-    # Download latest chain data snapshot
-    curl "https://snapshots-testnet.nodejumper.io/babylon-testnet/babylon-testnet_latest.tar.lz4" | lz4 -dc - | tar -xf - -C "$HOME/.babylond"
+    go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@latest
 
-    # Create a service
-    sudo tee /etc/systemd/system/babylond.service > /dev/null << EOF
+    mkdir -p ~/.babylond/cosmovisor
+    mkdir -p ~/.babylond/cosmovisor/genesis
+    mkdir -p ~/.babylond/cosmovisor/genesis/bin
+    mkdir -p ~/.babylond/cosmovisor/upgrades
+
+    cp $HOME/go/bin/babylond ~/.babylond/cosmovisor/genesis/bin/babylond
+    sudo tee /etc/systemd/system/babylond.service > /dev/null <<EOF
 [Unit]
-Description=Babylon node service
+Description=Babylon daemon
 After=network-online.target
+
 [Service]
 User=$USER
-ExecStart=$(which babylond) start
-Restart=on-failure
-RestartSec=10
-LimitNOFILE=65535
+ExecStart=$(which cosmovisor) run start --x-crisis-skip-assert-invariants
+Restart=always
+RestartSec=3
+LimitNOFILE=infinity
+
+Environment="DAEMON_NAME=babylond"
+Environment="DAEMON_HOME=${HOME}/.babylond"
+Environment="DAEMON_RESTART_AFTER_UPGRADE=true"
+Environment="DAEMON_ALLOW_DOWNLOAD_BINARIES=false"
+
 [Install]
 WantedBy=multi-user.target
 EOF
-    sudo systemctl daemon-reload
-    sudo systemctl enable babylond.service
     echo -e "\n"
     echo -e "下面开始创建babylon钱包，会让你创建一个钱包密码..."
     babylond keys add wallet
@@ -104,12 +113,14 @@ EOF
     cat $HOME/.babylond/config/priv_validator_key.json
     echo -e "\n"
     echo -e "请保存上面创建好的钱包地址、私钥、助记词等信息..."
+    sudo -S systemctl daemon-reload
+    sudo -S systemctl enable babylond
 }
 
 start_babylon_node() {
     source $HOME/.bash_profile
-    sudo systemctl start babylond.service
-    sudo journalctl -u babylond.service -f --no-hostname -o cat
+    sudo -S systemctl restart babylond
+    journalctl -u babylond -f --no-hostname -o cat
 }
 
 check_node_status_and_height() {
