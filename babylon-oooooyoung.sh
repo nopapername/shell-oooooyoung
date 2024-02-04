@@ -100,6 +100,8 @@ EOF
     babylond keys add wallet
     sed -i -e "s|^key-name *=.*|key-name = \"wallet\"|" ~/.babylond/config/app.toml
     sed -i -e "s|^timeout_commit *=.*|timeout_commit = \"10s\"|" ~/.babylond/config/config.toml
+    babylond create-bls-key $(babylond keys show wallet -a)
+    cat $HOME/.babylond/config/priv_validator_key.json
     echo -e "\n"
     echo -e "请保存上面创建好的钱包地址、私钥、助记词等信息..."
 }
