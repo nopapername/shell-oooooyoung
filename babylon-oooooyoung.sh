@@ -32,6 +32,9 @@ install_babylon_env() {
     read -e -p "请输入你的节点名称: " node_name
     
     install_go
+    ufw allow 255656
+    ufw allow 255657
+    ufw allow 16456
 
     cd $HOME
     source $HOME/.bash_profile
