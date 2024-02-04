@@ -76,6 +76,8 @@ install_babylon_env() {
     sed -i -e "s%:1317%:20617%; s%:8080%:20680%; s%:9090%:20690%; s%:9091%:20691%; s%:8545%:20645%; s%:8546%:20646%; s%:6065%:20665%" $HOME/.babylond/config/app.toml
     sed -i -e "s%:26658%:20658%; s%:26657%:20657%; s%:6060%:20660%; s%:26656%:20656%; s%:26660%:20661%" $HOME/.babylond/config/config.toml
 
+    source $HOME/.bash_profile
+
     go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@latest
 
     mkdir -p ~/.babylond/cosmovisor
@@ -113,6 +115,7 @@ EOF
     cat $HOME/.babylond/config/priv_validator_key.json
     echo -e "\n"
     echo -e "请保存上面创建好的钱包地址、私钥、助记词等信息..."
+    source $HOME/.bash_profile
     sudo -S systemctl daemon-reload
     sudo -S systemctl enable babylond
 }
