@@ -122,18 +122,19 @@ get_log() {
 start_validator_node() {
     read -e -p "请输入你的验证者名称: " validator_name
     babylond tx checkpointing create-validator \
-    --amount=10ubbn \
+    --amount="1000000ubbn" \
     --pubkey=$(babylond tendermint show-validator) \
     --moniker="$validator_name" \
-    --details="$validator_name validator node" \
-    --chain-id=bbn-test-2 \
-    --commission-rate=0.1 \
-    --commission-max-rate=0.2 \
-    --commission-max-change-rate=0.05 \
-    --min-self-delegation=1 \
-    --fees=0.0025ubbn \
-    --from=wallet \
-    -y
+    --chain-id="bbn-test-2" \
+    --gas="auto" \
+    --gas-adjustment=1.2 \
+    --gas-prices="0.0025ubbn" \
+    --keyring-backend=test \
+    --from="wallet" \
+    --commission-rate="0.10" \
+    --commission-max-rate="0.20" \
+    --commission-max-change-rate="0.01" \
+    --min-self-delegation="1"
 }
 
 echo && echo -e " ${Red_font_prefix}babylon节点 一键安装脚本${Font_color_suffix} by \033[1;35moooooyoung\033[0m
@@ -146,7 +147,7 @@ echo && echo -e " ${Red_font_prefix}babylon节点 一键安装脚本${Font_color
  ${Green_font_prefix} 4.显示同步日志 ${Font_color_suffix}
  ${Green_font_prefix} 5.成为验证者（需要等节点同步到最新区块） ${Font_color_suffix}
  ———————————————————————" && echo
-read -e -p " 请参照教程执行以上步骤，请输入数字 [1-3]:" num
+read -e -p " 请参照教程执行以上步骤，请输入数字 [1-5]:" num
 case "$num" in
 1)
     install_babylon_env
