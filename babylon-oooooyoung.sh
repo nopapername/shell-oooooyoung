@@ -110,7 +110,6 @@ start_babylon_node() {
 }
 
 check_node_status_and_height() {
-    babylond status | jq .SyncInfo
     systemctl status babylond
 }
 
@@ -148,7 +147,7 @@ echo && echo -e " ${Red_font_prefix}babylon节点 一键安装脚本${Font_color
  ———————————————————————
  ${Green_font_prefix} 1.安装babylon节点环境 ${Font_color_suffix}
  ${Green_font_prefix} 2.运行babylon节点 ${Font_color_suffix}
- ${Green_font_prefix} 3.检查节点同步高度及状态 ${Font_color_suffix}
+ ${Green_font_prefix} 3.检查节点状态 ${Font_color_suffix}
  ${Green_font_prefix} 4.显示同步日志 ${Font_color_suffix}
  ${Green_font_prefix} 5.成为验证者（需要等节点同步到最新区块） ${Font_color_suffix}
  ———————————————————————" && echo
