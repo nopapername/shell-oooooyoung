@@ -120,20 +120,26 @@ get_log() {
 
 start_validator_node() {
     read -e -p "请输入你的验证者名称: " validator_name
-    babylond tx checkpointing create-validator \
-    --amount="1000000ubbn" \
-    --pubkey=$(babylond tendermint show-validator) \
-    --moniker="$validator_name" \
+    pubkey=$(babylond tendermint show-validator)
+    cat > ~/validator.json <<EOF
+{
+  "pubkey": "$pubkey",
+  "amount": "1000000ubbn",
+  "moniker": "$validator_name",
+  "details": "$validator_name validator node",
+  "commission-rate": "0.10",
+  "commission-max-rate": "0.20",
+  "commission-max-change-rate": "0.01",
+  "min-self-delegation": "1"
+}
+EOF
+    babylond tx checkpointing create-validator ~/validator.json \
     --chain-id="$CHAIN_ID" \
     --gas="auto" \
-    --gas-adjustment=1.2 \
-    --gas-prices="0.0025ubbn" \
+    --gas-adjustment="1.5" \
+    --gas-prices="0.025ubbn" \
     --keyring-backend=test \
-    --from="wallet" \
-    --commission-rate="0.10" \
-    --commission-max-rate="0.20" \
-    --commission-max-change-rate="0.01" \
-    --min-self-delegation="1"
+    --from="wallet"
 }
 
 echo && echo -e " ${Red_font_prefix}babylon节点 一键安装脚本${Font_color_suffix} by \033[1;35moooooyoung\033[0m
