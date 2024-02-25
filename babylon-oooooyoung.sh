@@ -149,7 +149,7 @@ EOF
     --gas="auto" \
     --gas-adjustment="1.5" \
     --gas-prices="0.025ubbn" \
-    --from=$wallet
+    --from=wallet
 }
 
 echo && echo -e " ${Red_font_prefix}babylon节点 一键安装脚本${Font_color_suffix} by \033[1;35moooooyoung\033[0m
