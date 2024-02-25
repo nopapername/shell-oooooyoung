@@ -51,8 +51,7 @@ install_babylon_env() {
     go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@latest
 
     # Move BabylonD file to Cosmovisor directory
-    mv build/babylond $HOME/.babylond/cosmovisor/genesis/bin/
-    rm -rf build
+    cp $GOPATH/bin/babylond ~/.babylond/cosmovisor/genesis/bin/babylond
 
     # Create application symlinks
     sudo ln -s $HOME/.babylond/cosmovisor/genesis $HOME/.babylond/cosmovisor/current -f
