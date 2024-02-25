@@ -38,7 +38,7 @@ install_babylon_env() {
     git checkout v0.8.3
 
     # Build binary
-    make install
+    make build
 
     # Prepare directories
     mkdir -p ~/.babylond
@@ -103,7 +103,7 @@ EOF
     
     echo -e "\n"
     echo -e "下面开始创建babylon钱包，会让你创建一个钱包密码..."
-    babylond --keyring-backend test keys add wallet
+    babylond keys add wallet
     sed -i -e "s|^key-name *=.*|key-name = \"wallet\"|" ~/.babylond/config/app.toml
     sed -i -e "s|^timeout_commit *=.*|timeout_commit = \"30s\"|" ~/.babylond/config/config.toml
     babylond create-bls-key $(babylond keys show wallet -a)
