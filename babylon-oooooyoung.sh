@@ -135,7 +135,7 @@ start_validator_node() {
     sudo tee ~/validator.json > /dev/null <<EOF
 {
   "pubkey": $(babylond tendermint show-validator),
-  "amount": "1000000ubbn",
+  "amount": "50000ubbn",
   "moniker": "$validator_name",
   "details": "$validator_name validator node",
   "commission-rate": "0.10",
