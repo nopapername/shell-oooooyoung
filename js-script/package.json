@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "ethers": "^5.7.2",
+    "node-fetch": "^2.7.0"
+  }
+}
