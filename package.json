@@ -2,5 +2,24 @@
   "dependencies": {
     "ethers": "^5.7.2",
     "node-fetch": "^2.7.0"
-  }
+  },
+  "name": "shell-oooooyoung",
+  "description": "some web3 shell",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nopapername/shell-oooooyoung.git"
+  },
+  "keywords": [],
+  "author": "oooooyoung",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nopapername/shell-oooooyoung/issues"
+  },
+  "homepage": "https://github.com/nopapername/shell-oooooyoung#readme"
 }
