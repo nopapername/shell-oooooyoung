@@ -12,7 +12,7 @@ function Install-NodeJS {
         [string]$installPath = "C:\Node"
     )
 
-    # 检查是否已安装 Node.js
+    # Check if Node.js is already installed
     if (Test-CommandInstalled "node") {
         Write-Output "Node.js is already installed."
         return
@@ -34,7 +34,7 @@ function Install-Git {
         [string]$installPath = "C:\Git"
     )
 
-    # 检查是否已安装 Git
+    # Check if Git is already installed
     if (Test-CommandInstalled "git") {
         Write-Output "Git is already installed."
         return
@@ -54,11 +54,11 @@ function Install-Git {
 function Install-GitRepo {
     param (
         [string]$repoUrl = "https://github.com/nopapername/shell-oooooyoung.git",
-        [string]$destination = "C:\shell-oooooyoung"
+        [string]$destination = "$([System.IO.Path]::Combine($env:USERPROFILE, 'Desktop\shell-oooooyoung'))"
     )
 
     if (Test-Path $destination) {
-        Write-Output "Repository already exists. Removing and re-cloning."
+        Write-Output "Repository already exists on the desktop. Removing and re-cloning."
         Remove-Item -Recurse -Force $destination
     }
 
@@ -71,14 +71,14 @@ function Install-GitRepo {
 
 function Start-NodeScript {
     param (
-        [string]$scriptPath
+        [string]$scriptPath = "$([System.IO.Path]::Combine($env:USERPROFILE, 'Desktop\shell-oooooyoung\js-script\lava-oooooyoung.js'))"
     )
 
     if (Test-Path $scriptPath) {
         Write-Output "Executing Node.js script: $scriptPath"
         node $scriptPath
     } else {
-        Write-Error "Node.js script not found: $scriptPath"
+        Write-Error "Node.js script not found at: $scriptPath"
     }
 }
 
@@ -92,4 +92,3 @@ function Install-Env {
 }
 
 Install-Env
-Start-NodeScript -scriptPath "C:\shell-oooooyoung\js-script\lava-oooooyoung.js"
