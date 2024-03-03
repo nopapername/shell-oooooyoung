@@ -89,6 +89,8 @@ function Install-Env {
     Install-GitRepo
 
     Write-Output "All environment installed."
+    Read-Host "Press Enter to restart lava-oooooyoung.js script..."
+    Start-NodeScript
 }
 
 Install-Env
