@@ -5,7 +5,7 @@
   },
   "name": "shell-oooooyoung",
   "description": "Some web3 shell",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
