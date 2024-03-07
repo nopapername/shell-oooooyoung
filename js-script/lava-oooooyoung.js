@@ -10,7 +10,7 @@ async function main(addresses) {
     ]
     const number = lodash.floor(4.006)
     const add = lodash.add(number, 1)
-    console.log(number)
+    console.log(add)
 
     const shuffledAddresses = addresses
         .map(value => ({ value, sort: Math.random() }))
