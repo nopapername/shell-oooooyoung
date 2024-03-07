@@ -6,7 +6,7 @@
   },
   "name": "shell-oooooyoung",
   "description": "Some web3 shell",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "index.js",
   "devDependencies": {
     "cspell": "^6.31.2"

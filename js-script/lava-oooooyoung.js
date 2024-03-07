@@ -9,6 +9,7 @@ async function main(addresses) {
         "https://evmos-testnet.lava.build/lava-referer-d8fbfd38-cde3-42da-8c9d-c53fac3d41db/"
     ]
     const number = lodash.floor(4.006)
+    const add = lodash.add(number, 1)
     console.log(number)
 
     const shuffledAddresses = addresses
