@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const ethers = require('ethers');
+const lodash = require('lodash')
 
 async function main(addresses) {
     const rpcUrls = [
@@ -7,6 +8,8 @@ async function main(addresses) {
         "https://evmos.lava.build/lava-referer-d8fbfd38-cde3-42da-8c9d-c53fac3d41db/",
         "https://evmos-testnet.lava.build/lava-referer-d8fbfd38-cde3-42da-8c9d-c53fac3d41db/"
     ]
+    const number = lodash.floor(4.006)
+    console.log(number)
 
     const shuffledAddresses = addresses
         .map(value => ({ value, sort: Math.random() }))

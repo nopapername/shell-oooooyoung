@@ -1,0 +1,16 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "addrs",
+    "aggs"
+  ],
+  "flagWords": ["hte", "hight"],
+  "ignorePaths": [
+    "node_modules/**",
+    "other",
+    "pw-scripts",
+    "sehll-script",
+    "**/*.svg"
+  ]
+}
