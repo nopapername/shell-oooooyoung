@@ -37,7 +37,7 @@ install_babylon_env() {
     cd && rm -rf babylon
     git clone https://github.com/babylonchain/babylon
     cd babylon
-    git checkout v0.8.3
+    git checkout v0.8.4
 
     # Build binary
     make install
