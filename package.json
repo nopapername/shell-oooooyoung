@@ -2,7 +2,8 @@
   "dependencies": {
     "ethers": "^5.7.2",
     "lodash": "^4.17.21",
-    "node-fetch": "^2.7.0"
+    "node-fetch": "^2.7.0",
+    "shell-oooooyoung": "^1.1.2"
   },
   "name": "shell-oooooyoung",
   "description": "Some web3 shell",
