@@ -1,13 +1,14 @@
 {
   "dependencies": {
-    "crypto-price-checker-oooooyoung": "^1.0.1",
+    "bbguai": "^1.0.0",
+    "crypto-price-checker-oooooyoung": "^1.0.6",
     "ethers": "^5.7.2",
     "lodash": "^4.17.21",
     "node-fetch": "^2.7.0"
   },
   "name": "shell-oooooyoung",
   "description": "Some web3 shell",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "main": "index.js",
   "devDependencies": {
     "cspell": "^6.31.2"
