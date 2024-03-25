@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         backpack-oooooyoung
 // @namespace    http://tampermonkey.net/
-// @version      2024-03-25
+// @version      v1.1
 // @description  oooooyoung's backpack trade script
 // @author       oooooyoung
 // @match        https://backpack.exchange/trade/SOL_USDC
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=tampermonkey.net
 // @grant        none
+// @license MIT
 // ==/UserScript==
 
 // 请使用在浏览器控制台里
@@ -46,17 +47,18 @@ const performTradeCycle = async () => {
   try {
     tradeCount++;
     console.log(`开始第${tradeCount}次买`);
-    await sleep(getRandomWait(MIN_SWITCH_MS, MAX_SWITCH_MS));
     await executeTrade("Buy");
     await sleep(getRandomWait(MIN_SWITCH_MS, MAX_SWITCH_MS));
     console.log(`开始第${tradeCount}次卖`);
     await executeTrade("Sell");
+    await sleep(getRandomWait(MIN_SWITCH_MS, MAX_SWITCH_MS));
   } catch (error) {
     console.error("发生错误:", error);
   }
 };
 
 const startTrading = async () => {
+  await sleep(3000);
   while (true) {
     await performTradeCycle();
   }
