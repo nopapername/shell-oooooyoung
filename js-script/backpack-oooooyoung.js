@@ -20,13 +20,13 @@ let tradeCount = 0;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const findElementsByText = (text, tag, index) => {
+const findElementsByText = (text, tag) => {
   const elements = document.querySelectorAll(tag);
   return Array.from(elements).filter((div) => div.textContent === text);
 };
 
-const clickElementByText = async (text, tag, index) => {
-  const [element] = findElementsByText(text, tag, index);
+const clickElementByText = async (text, tag) => {
+  const [element] = findElementsByText(text, tag);
   if (element) {
     element.click();
     await sleep(getRandomWait(MIN_WAIT_MS, MAX_WAIT_MS));
@@ -34,10 +34,10 @@ const clickElementByText = async (text, tag, index) => {
 };
 
 const executeTrade = async (type) => {
-  await clickElementByText(type, "p", 0);
-  await clickElementByText("Market", "div", 0);
-  await clickElementByText("Max", "div", 0);
-  await clickElementByText(type, "button", 0);
+  await clickElementByText(type, "p");
+  await clickElementByText("Market", "div");
+  await clickElementByText("Max", "div");
+  await clickElementByText(type, "button");
 };
 
 const getRandomWait = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
@@ -45,11 +45,11 @@ const getRandomWait = (min, max) => Math.floor(Math.random() * (max - min + 1) +
 const performTradeCycle = async () => {
   try {
     tradeCount++;
-    console.log(`开始第${tradeCount}次买卖交易`);
+    console.log(`开始第${tradeCount}次买`);
     await sleep(getRandomWait(MIN_SWITCH_MS, MAX_SWITCH_MS));
     await executeTrade("Buy");
     await sleep(getRandomWait(MIN_SWITCH_MS, MAX_SWITCH_MS));
-    console.log(`开始第${tradeCount}次卖卖交易`);
+    console.log(`开始第${tradeCount}次卖`);
     await executeTrade("Sell");
   } catch (error) {
     console.error("发生错误:", error);
