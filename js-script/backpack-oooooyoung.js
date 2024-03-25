@@ -9,6 +9,8 @@
 // @grant        none
 // ==/UserScript==
 
+// 请使用在浏览器控制台里
+
 const MIN_WAIT_MS = 100;
 const MAX_WAIT_MS = 1000;
 const MIN_SWITCH_MS = 500;
