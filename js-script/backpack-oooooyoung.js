@@ -12,9 +12,9 @@
 
 // 请使用在浏览器控制台里
 
-const MIN_WAIT_MS = 100;
+const MIN_WAIT_MS = 500;
 const MAX_WAIT_MS = 1000;
-const MIN_SWITCH_MS = 500;
+const MIN_SWITCH_MS = 1000;
 const MAX_SWITCH_MS = 3000;
 
 let tradeCount = 0;
@@ -30,6 +30,7 @@ const clickElementByText = async (text, tag) => {
   const [element] = findElementsByText(text, tag);
   if (element) {
     element.click();
+    console.log("等待" + getRandomWait(MIN_WAIT_MS, MAX_WAIT_MS))
     await sleep(getRandomWait(MIN_WAIT_MS, MAX_WAIT_MS));
   }
 };
@@ -41,7 +42,7 @@ const executeTrade = async (type) => {
   await clickElementByText(type, "button");
 };
 
-const getRandomWait = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+const getRandomWait = (min, max) => Math.floor(Math.random() * max + min);
 
 const performTradeCycle = async () => {
   try {
