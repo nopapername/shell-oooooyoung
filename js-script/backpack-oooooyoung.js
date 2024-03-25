@@ -4,7 +4,7 @@
 // @version      v1.1
 // @description  oooooyoung's backpack trade script
 // @author       oooooyoung
-// @match        https://backpack.exchange/trade/SOL_USDC
+// @match        https://backpack.exchange/trade/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=tampermonkey.net
 // @grant        none
 // @license MIT
