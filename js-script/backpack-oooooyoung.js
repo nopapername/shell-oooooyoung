@@ -28,7 +28,13 @@ const findElementsByText = (text, tag) => {
 
 const clickElementByText = async (text, tag) => {
   const [element] = findElementsByText(text, tag);
-  if (element) {
+  if (!element) {
+    const [cnElement] = findElementsByText(getChineseText(text), tag);
+    if (cnElement) {
+      cnElement.click();
+      await sleep(getRandomWait(MIN_WAIT_MS, MAX_WAIT_MS));
+    }
+  } else {
     element.click();
     await sleep(getRandomWait(MIN_WAIT_MS, MAX_WAIT_MS));
   }
@@ -68,3 +74,18 @@ const startTrading = async () => {
   "use strict";
   startTrading();
 })();
+
+function getChineseText(text) {
+  switch (text) {
+    case "Market":
+      return "市场";
+    case "Max":
+      return "最大";
+    case "Buy":
+      return "购买";
+    case "Sell":
+      return "出售";
+    default:
+      return text;
+  }
+}
