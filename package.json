@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "@analog-labs/timegraph-js": "^0.1.1",
+    "@polkadot/extension-dapp": "^0.47.3",
+    "@polkadot/keyring": "^12.6.2",
     "bbguai": "^1.0.0",
     "crypto-price-checker-oooooyoung": "^1.0.6",
     "ethers": "^5.7.2",
@@ -8,7 +11,7 @@
   },
   "name": "shell-oooooyoung",
   "description": "Some web3 shell",
-  "version": "1.1.11",
+  "version": "1.1.12",
   "main": "index.js",
   "devDependencies": {
     "cspell": "^6.31.2"
