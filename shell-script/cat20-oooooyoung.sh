@@ -88,7 +88,7 @@ start_mint_cat() {
 }
 
 check_node_log() {
-  docker logs -f tracker
+  docker logs -f --tail 100 tracker
 }
 
 echo && echo -e " ${Red_font_prefix}dusk_network 一键安装脚本${Font_color_suffix} by \033[1;35moooooyoung\033[0m
