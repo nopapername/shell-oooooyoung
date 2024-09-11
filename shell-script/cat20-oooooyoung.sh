@@ -84,6 +84,8 @@ create_wallet() {
 }
 
 start_mint_cat() {
+  read -p "请输入想要mint的gas: " newMaxFeeRate
+  sed -i "s/\"maxFeeRate\": [0-9]*/\"maxFeeRate\": $newMaxFeeRate/" ~/cat-token-box/packages/cli/config.json
   cd ~/cat-token-box/packages/cli
   bash ~/cat-token-box/packages/cli/mint_script.sh
 }
