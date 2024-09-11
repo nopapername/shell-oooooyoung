@@ -84,11 +84,17 @@ create_wallet() {
 }
 
 start_mint_cat() {
+  cd ~/cat-token-box/packages/cli
   bash ~/cat-token-box/packages/cli/mint_script.sh
 }
 
 check_node_log() {
   docker logs -f --tail 100 tracker
+}
+
+check_wallet_balance() {
+  cd ~/cat-token-box/packages/cli
+  sudo yarn cli wallet balances
 }
 
 echo && echo -e " ${Red_font_prefix}dusk_network 一键安装脚本${Font_color_suffix} by \033[1;35moooooyoung\033[0m
@@ -99,6 +105,7 @@ echo && echo -e " ${Red_font_prefix}dusk_network 一键安装脚本${Font_color_
  ${Green_font_prefix} 2.创建钱包 ${Font_color_suffix}
  ${Green_font_prefix} 3.开始 mint cat ${Font_color_suffix}
  ${Green_font_prefix} 4.查看节点同步日志 ${Font_color_suffix}
+ ${Green_font_prefix} 5.查看钱包余额情况 ${Font_color_suffix}
  ———————————————————————" && echo
 read -e -p " 请参照上面的步骤，请输入数字:" num
 case "$num" in
@@ -113,6 +120,9 @@ case "$num" in
     ;;
 4)
     check_node_log
+    ;;
+5)
+    check_wallet_balance
     ;;
 *)
     echo
