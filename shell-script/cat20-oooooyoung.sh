@@ -79,7 +79,7 @@ create_wallet() {
   cd ~/cat-token-box/packages/cli
   sudo yarn cli wallet create
   echo -e "\n"
-  sudo yarn cli wallet balances
+  sudo yarn cli wallet address
   echo -e "请保存上面创建好的钱包地址、助记词"
 }
 
