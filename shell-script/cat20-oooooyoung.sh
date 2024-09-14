@@ -31,6 +31,9 @@ install_env_and_full_node() {
     sudo yarn install
     sudo yarn build
 
+    MAX_CPUS=$(nproc)
+    MAX_MEMORY=$(free -m | awk '/Mem:/ {print int($2*0.8)"M"}')
+
     cd ./packages/tracker/
     sudo chmod 777 docker/data
     sudo chmod 777 docker/pgdata
@@ -40,6 +43,8 @@ install_env_and_full_node() {
     sudo docker build -t tracker:latest .
     sudo docker run -d \
         --name tracker \
+        --cpus="$MAX_CPUS" \
+        --memory="$MAX_MEMORY" \
         --add-host="host.docker.internal:host-gateway" \
         -e DATABASE_HOST="host.docker.internal" \
         -e RPC_HOST="host.docker.internal" \
@@ -56,22 +61,6 @@ install_env_and_full_node() {
           "password": "opcatAwesome"
       }
     }' > ~/cat-token-box/packages/cli/config.json
-
-    echo '#!/bin/bash
-
-    command="sudo yarn cli mint -i 45ee725c2c5993b3e4d308842d87e973bf1951f5f7a804b21e4dd964ecd12d6b_0 5"
-
-    while true; do
-        $command
-
-        if [ $? -ne 0 ]; then
-            echo "命令执行失败，退出循环"
-            exit 1
-        fi
-
-        sleep 1
-    done' > ~/cat-token-box/packages/cli/mint_script.sh
-    chmod +x ~/cat-token-box/packages/cli/mint_script.sh
 }
 
 create_wallet() {
@@ -84,10 +73,30 @@ create_wallet() {
 }
 
 start_mint_cat() {
-  read -p "请输入想要mint的gas: " newMaxFeeRate
+  # Prompt for token ID
+  read -p "请输入要 mint 的 tokenId: " tokenId
+
+  # Prompt for gas (maxFeeRate)
+  read -p "请设定要 mint 的 gas: " newMaxFeeRate
   sed -i "s/\"maxFeeRate\": [0-9]*/\"maxFeeRate\": $newMaxFeeRate/" ~/cat-token-box/packages/cli/config.json
-  cd ~/cat-token-box/packages/cli
-  bash ~/cat-token-box/packages/cli/mint_script.sh
+
+  # Prompt for amount to mint
+  read -p "请输入要 mint 的数量: " amount
+
+  # Update the mint command with tokenId and amount
+  command="sudo yarn cli mint -i $tokenId $amount"
+
+  # Run the minting loop
+  while true; do
+      $command
+
+      if [ $? -ne 0 ]; then
+          echo "命令执行失败，退出循环"
+          exit 1
+      fi
+
+      sleep 1
+  done
 }
 
 check_node_log() {
@@ -99,15 +108,30 @@ check_wallet_balance() {
   sudo yarn cli wallet balances
 }
 
+send_token() {
+  read -p "请输入tokenId (不是代币名字): " tokenId
+  read -p "请输入接收地址: " receiver
+  read -p "请输入转账数量: " amount
+  cd ~/cat-token-box/packages/cli
+  sudo yarn cli send -i $tokenId $receiver $amount
+  if [ $? -eq 0 ]; then
+      echo -e "${Info} 转账成功"
+  else
+      echo -e "${Error} 转账失败，请检查信息后重试"
+  fi
+}
+
+
 echo && echo -e " ${Red_font_prefix}dusk_network 一键安装脚本${Font_color_suffix} by \033[1;35moooooyoung\033[0m
 此脚本完全免费开源, 由推特用户 ${Green_font_prefix}@ouyoung11开发${Font_color_suffix}, 
 欢迎关注, 如有收费请勿上当受骗。
  ———————————————————————
  ${Green_font_prefix} 1.安装依赖环境和全节点 ${Font_color_suffix}
  ${Green_font_prefix} 2.创建钱包 ${Font_color_suffix}
- ${Green_font_prefix} 3.开始 mint cat ${Font_color_suffix}
- ${Green_font_prefix} 4.查看节点同步日志 ${Font_color_suffix}
- ${Green_font_prefix} 5.查看钱包余额情况 ${Font_color_suffix}
+ ${Green_font_prefix} 3.查看钱包余额情况 ${Font_color_suffix}
+ ${Green_font_prefix} 4.开始 mint cat20 代币 ${Font_color_suffix}
+ ${Green_font_prefix} 5.查看节点同步日志 ${Font_color_suffix}
+ ${Green_font_prefix} 6.转账 cat20 代币 ${Font_color_suffix}
  ———————————————————————" && echo
 read -e -p " 请参照上面的步骤，请输入数字:" num
 case "$num" in
@@ -118,13 +142,16 @@ case "$num" in
     create_wallet
     ;;
 3)
-    start_mint_cat
+    check_wallet_balance
     ;;
 4)
-    check_node_log
+    start_mint_cat
     ;;
 5)
-    check_wallet_balance
+    check_node_log
+    ;;
+6)
+    send_token
     ;;
 *)
     echo
