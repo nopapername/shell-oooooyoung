@@ -83,6 +83,8 @@ start_mint_cat() {
   # Prompt for amount to mint
   read -p "请输入要 mint 的数量: " amount
 
+  cd ~/cat-token-box/packages/cli
+
   # Update the mint command with tokenId and amount
   command="sudo yarn cli mint -i $tokenId $amount"
 
