@@ -15,7 +15,7 @@ check_root() {
 install_env_and_full_node() {
     check_root
     sudo apt update && sudo apt upgrade -y
-    sudo apt install curl tar wget clang pkg-config libssl-dev jq build-essential git make docker.io -y
+    sudo apt install curl tar wget clang pkg-config libssl-dev jq build-essential git make docker.io postgresql-client -y
     VERSION=$(curl --silent https://api.github.com/repos/docker/compose/releases/latest | grep -Po '"tag_name": "\K.*\d')
     DESTINATION=/usr/local/bin/docker-compose
     sudo curl -L https://github.com/docker/compose/releases/download/${VERSION}/docker-compose-$(uname -s)-$(uname -m) -o $DESTINATION
@@ -41,6 +41,15 @@ install_env_and_full_node() {
 
     cd ../../
     sudo docker build -t tracker:latest .
+    BASE_URL="http://88.99.70.27:41187/"
+    FILES=$(curl -s $BASE_URL | grep -oP 'dump_file_\d+\.sql')
+    LATEST_FILE=$(echo "$FILES" | sort -V | tail -n 1)
+    echo "Downloading the latest file: $LATEST_FILE"
+    curl -O "$BASE_URL$LATEST_FILE"
+    export PGPASSWORD='postgres'
+    psql -h 127.0.0.1 -U postgres -d postgres -f "$LATEST_FILE"
+    unset PGPASSWORD
+
     sudo docker run -d \
         --name tracker \
         --cpus="$MAX_CPUS" \
