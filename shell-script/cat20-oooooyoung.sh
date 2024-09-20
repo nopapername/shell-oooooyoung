@@ -31,9 +31,6 @@ install_env_and_full_node() {
     sudo yarn install
     sudo yarn build
 
-    MAX_CPUS=$(nproc)
-    MAX_MEMORY=$(free -m | awk '/Mem:/ {print int($2*0.8)"M"}')
-
     cd ./packages/tracker/
     sudo chmod 777 docker/data
     sudo chmod 777 docker/pgdata
@@ -52,8 +49,6 @@ install_env_and_full_node() {
 
     sudo docker run -d \
         --name tracker \
-        --cpus="$MAX_CPUS" \
-        --memory="$MAX_MEMORY" \
         --add-host="host.docker.internal:host-gateway" \
         -e DATABASE_HOST="host.docker.internal" \
         -e RPC_HOST="host.docker.internal" \
