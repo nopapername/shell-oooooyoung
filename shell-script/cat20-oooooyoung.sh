@@ -113,7 +113,7 @@ check_tracker_log() {
 }
 
 check_node_log() {
-  docker logs tracker-bitcoind-1 --tail 100
+  docker logs -f tracker-bitcoind-1 --tail 100
 }
 
 check_wallet_balance() {
