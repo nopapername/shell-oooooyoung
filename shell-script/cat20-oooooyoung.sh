@@ -38,13 +38,16 @@ install_env_and_full_node() {
 
     cd ../../
     sudo docker build -t tracker:latest .
-    BASE_URL="http://88.99.70.27:41187/"
-    FILES=$(curl -s $BASE_URL | grep -oP 'dump_file_\d+\.sql')
-    LATEST_FILE=$(echo "$FILES" | sort -V | tail -n 1)
-    echo "Downloading the latest file: $LATEST_FILE"
-    curl -O "$BASE_URL$LATEST_FILE"
+    # BASE_URL="http://88.99.70.27:41187/"
+    # FILES=$(curl -s $BASE_URL | grep -oP 'dump_file_\d+\.sql')
+    # LATEST_FILE=$(echo "$FILES" | sort -V | tail -n 1)
+    # echo "Downloading the latest file: $LATEST_FILE"
+    # curl -O "$BASE_URL$LATEST_FILE"
+    curl -O https://link.storjshare.io/s/jxf7mzz3hfhw7wgl2ddieysqqyna/home/dump_file_34795.sql?download=1
+
     export PGPASSWORD='postgres'
-    psql -h 127.0.0.1 -U postgres -d postgres -f "$LATEST_FILE"
+    # psql -h 127.0.0.1 -U postgres -d postgres -f "$LATEST_FILE"
+    psql -h 127.0.0.1 -U postgres -d postgres -f dump_file_34795.sql
     unset PGPASSWORD
 
     sudo docker run -d \
@@ -105,8 +108,12 @@ start_mint_cat() {
   done
 }
 
-check_node_log() {
+check_tracker_log() {
   docker logs -f --tail 100 tracker
+}
+
+check_node_log() {
+  docker logs tracker-bitcoind-1 --tail 100
 }
 
 check_wallet_balance() {
@@ -136,8 +143,9 @@ echo && echo -e " ${Red_font_prefix}dusk_network 一键安装脚本${Font_color_
  ${Green_font_prefix} 2.创建钱包 ${Font_color_suffix}
  ${Green_font_prefix} 3.查看钱包余额情况 ${Font_color_suffix}
  ${Green_font_prefix} 4.开始 mint cat20 代币 ${Font_color_suffix}
- ${Green_font_prefix} 5.查看节点同步日志 ${Font_color_suffix}
- ${Green_font_prefix} 6.转账 cat20 代币 ${Font_color_suffix}
+ ${Green_font_prefix} 5.查看tracker同步日志 ${Font_color_suffix}
+ ${Green_font_prefix} 6.查看node同步日志 ${Font_color_suffix}
+ ${Green_font_prefix} 7.转账 cat20 代币 ${Font_color_suffix}
  ———————————————————————" && echo
 read -e -p " 请参照上面的步骤，请输入数字:" num
 case "$num" in
@@ -153,10 +161,13 @@ case "$num" in
 4)
     start_mint_cat
     ;;
-5)
-    check_node_log
+5)  
+    check_tracker_log
     ;;
 6)
+    check_node_log
+    ;;
+7)
     send_token
     ;;
 *)
