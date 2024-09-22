@@ -38,16 +38,14 @@ install_env_and_full_node() {
 
     cd ../../
     sudo docker build -t tracker:latest .
-    # BASE_URL="http://88.99.70.27:41187/"
-    # FILES=$(curl -s $BASE_URL | grep -oP 'dump_file_\d+\.sql')
-    # LATEST_FILE=$(echo "$FILES" | sort -V | tail -n 1)
-    # echo "Downloading the latest file: $LATEST_FILE"
-    # curl -O "$BASE_URL$LATEST_FILE"
-    curl -O https://link.storjshare.io/s/jxf7mzz3hfhw7wgl2ddieysqqyna/home/dump_file_34795.sql?download=1
+    BASE_URL="http://88.99.70.27:41187/"
+    FILES=$(curl -s $BASE_URL | grep -oP 'dump_file_\d+\.sql')
+    LATEST_FILE=$(echo "$FILES" | sort -V | tail -n 1)
+    echo "Downloading the latest file: $LATEST_FILE"
+    curl -O "$BASE_URL$LATEST_FILE"
 
     export PGPASSWORD='postgres'
-    # psql -h 127.0.0.1 -U postgres -d postgres -f "$LATEST_FILE"
-    psql -h 127.0.0.1 -U postgres -d postgres -f dump_file_34795.sql
+    psql -h 127.0.0.1 -U postgres -d postgres -f "$LATEST_FILE"
     unset PGPASSWORD
 
     sudo docker run -d \
