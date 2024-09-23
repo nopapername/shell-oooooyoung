@@ -28,6 +28,7 @@ install_env_and_full_node() {
 
     git clone https://github.com/CATProtocol/cat-token-box
     cd cat-token-box
+    git switch openminter_v2
     sudo yarn install
     sudo yarn build
 
