@@ -183,6 +183,7 @@ build_merkle() {
 build_node() {
     print_message "正在编译 LayerEdge 轻节点..."
     cd $LAYEREDGE_DIR
+    echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee -a /etc/profile
     source /etc/profile
     go build
     print_success "轻节点编译成功"
