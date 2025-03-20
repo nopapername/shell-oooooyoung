@@ -111,6 +111,7 @@ install_risc0() {
     print_message "正在安装 Risc0 工具链..."
     cd $LAYEREDGE_DIR/risc0-merkle-service
     curl -L https://risczero.com/install | bash
+    export PATH="$HOME/.risc0/bin:$PATH"
     source "/root/.bashrc"
     print_success "正在安装 rzup 工具链..."
     rzup install
